@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>房屋資訊自動生成器</title>
+  <style>
+    body { font-family: "微軟正黑體", Arial, sans-serif; margin: 30px; }
+    label { display: block; margin: 8px 0 2px; }
+    input[type="text"], select, textarea { width: 100%; box-sizing: border-box; }
+    input[type="radio"] { width: auto; margin-right: 4px; vertical-align: middle; }
+    .radio-group label { margin-right: 16px; font-weight: normal; display: inline-block; }
+    .radio-group input[type="text"] { width: 120px; margin-left: 4px; }
+    input[type="radio"]:checked { accent-color: orange; }
+    textarea { margin-top: 10px; height: 350px; }
+    button { margin: 10px 5px 0 0; padding: 8px 16px; }
+    .row { display: flex; gap: 10px; }
+    .row label, .row input { flex: 1; }
+  </style>
+</head>
+<body>
+  <h2>房屋資訊自動生成器</h2>
+  <form id="houseForm" autocomplete="off">
+    <div class="row">
+      <label>日期（自動產生）</label>
+      <input name="date" id="date" readonly>
+    </div>
+    <label>可否廣告：
+      <span class="radio-group">
+        <label><input type="radio" name="ad" value="可" checked>可</label>
+        <label><input type="radio" name="ad" value="不可">不可</label>
+        <label><input type="radio" name="ad" value="其他" id="ad_other_radio">其他</label>
+        <input type="text" id="ad_other_text" name="ad_other" placeholder="請輸入其他內容" style="display:none;">
+      </span>
+    </label>
+    <label>可否簽委托書：
+      <span class="radio-group">
+        <label><input type="radio" name="sign" value="可" checked>可</label>
+        <label><input type="radio" name="sign" value="不可">不可</label>
+        <label><input type="radio" name="sign" value="其他" id="sign_other_radio">其他</label>
+        <input type="text" id="sign_other_text" name="sign_other" placeholder="請輸入其他內容" style="display:none;">
+      </span>
+    </label>
+    <label>地址：<input name="address" required></label>
+    <label>如為頂加是否為民國84年前增建：
+      <span class="radio-group">
+        <label><input type="radio" name="top" value="不適用" checked>不適用</label>
+        <label><input type="radio" name="top" value="是">是</label>
+        <label><input type="radio" name="top" value="否">否</label>
+        <label><input type="radio" name="top" value="其他" id="top_other_radio">其他</label>
+        <input type="text" id="top_other_text" name="top_other" placeholder="請輸入其他內容" style="display:none;">
+      </span>
+    </label>
+    <label>房號：<input name="room" required></label>
+    <label>總樓層：<input name="floor" required></label>
+    <label>建物型態：<input name="type" required></label>
+    <label>坪數：<input name="area" required></label>
+    <label>格局：<input name="layout" required></label>
+    <label>租金：<input name="rent" required></label>
+    <label>管理費：<input name="fee" required></label>
+    <label>底價：<input name="base" required></label>
+    <label>報稅：
+      <span class="radio-group">
+        <label><input type="radio" name="tax" value="是" checked>是</label>
+        <label><input type="radio" name="tax" value="否">否</label>
+        <label><input type="radio" name="tax" value="其他" id="tax_other_radio">其他</label>
+        <input type="text" id="tax_other_text" name="tax_other" placeholder="請輸入其他內容" style="display:none;">
+      </span>
+    </label>
+    <label>租補：
+      <span class="radio-group">
+        <label><input type="radio" name="subsidy" value="可" checked>可</label>
+        <label><input type="radio" name="subsidy" value="否">否</label>
+        <label><input type="radio" name="subsidy" value="其他" id="subsidy_other_radio">其他</label>
+        <input type="text" id="subsidy_other_text" name="subsidy_other" placeholder="請輸入其他內容" style="display:none;">
+      </span>
+    </label>
+    <label>入籍：
+      <span class="radio-group">
+        <label><input type="radio" name="register" value="可" checked>可</label>
+        <label><input type="radio" name="register" value="否">否</label>
+        <label><input type="radio" name="register" value="其他" id="register_other_radio">其他</label>
+        <input type="text" id="register_other_text" name="register_other" placeholder="請輸入其他內容" style="display:none;">
+      </span>
+    </label>
+    <label>寵物：
+      <span class="radio-group">
+        <label><input type="radio" name="pet" value="否" checked>否</label>
+        <label><input type="radio" name="pet" value="可">可</label>
+        <label><input type="radio" name="pet" value="可貓">可貓</label>
+        <label><input type="radio" name="pet" value="可狗">可狗</label>
+        <label><input type="radio" name="pet" value="其他" id="pet_other_radio">其他</label>
+        <input type="text" id="pet_other_text" name="pet_other" placeholder="請輸入其他內容" style="display:none;">
+      </span>
+    </label>
+    <label>垃圾代收：
+      <span class="radio-group">
+        <label><input type="radio" name="garbage" value="有" checked>有</label>
+        <label><input type="radio" name="garbage" value="無">無</label>
+        <label><input type="radio" name="garbage" value="其他" id="garbage_other_radio">其他</label>
+        <input type="text" id="garbage_other_text" name="garbage_other" placeholder="請輸入其他內容" style="display:none;">
+      </span>
+    </label>
+    <label>停車位：
+      <span class="radio-group">
+        <label><input type="radio" name="parking" value="有" checked>有</label>
+        <label><input type="radio" name="parking" value="無">無</label>
+        <label><input type="radio" name="parking" value="其他" id="parking_other_radio">其他</label>
+        <input type="text" id="parking_other_text" name="parking_other" placeholder="請輸入其他內容" style="display:none;">
+      </span>
+    </label>
+    <label>公設：
+      <span class="radio-group">
+        <label><input type="radio" name="public" value="有" checked>有</label>
+        <label><input type="radio" name="public" value="無">無</label>
+        <label><input type="radio" name="public" value="其他" id="public_other_radio">其他</label>
+        <input type="text" id="public_other_text" name="public_other" placeholder="請輸入其他內容" style="display:none;">
+      </span>
+    </label>
+    <label>電費$/度：<input name="electric" required></label>
+    <label>水費：<input name="water" required></label>
+    <label>瓦斯：<input name="gas" required></label>
+    <label>鄰近交通(站點/分鐘)：<input name="traffic" required></label>
+    <label>帶看方式：
+      <span class="radio-group">
+        <label><input type="radio" name="show" value="約看" checked>約看</label>
+        <label><input type="radio" name="show" value="現場有鑰匙">現場有鑰匙</label>
+        <label><input type="radio" name="show" value="屋主帶看">屋主帶看</label>
+        <label><input type="radio" name="show" value="其他" id="show_other_radio">其他</label>
+        <input type="text" id="show_other_text" name="show_other" placeholder="請輸入其他內容" style="display:none;">
+      </span>
+    </label>
+    <label>附加設備：<input name="equip" required></label>
+    <label>注意事項(生活機能、東服等補充)：<input name="note" required></label>
+    <label>開發：<input name="dev" required></label>
+    <button type="button" onclick="generate()">產生格式</button>
+    <button type="button" onclick="copyText()">複製內容</button>
+  </form>
+  <textarea id="output" readonly placeholder="這裡會自動產生格式內容"></textarea>
+
+  <script>
+    // 自動產生民國日期
+    function getTaiwanDate() {
+      const today = new Date();
+      const year = today.getFullYear() - 1911;
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      return `${year}/${month}/${day}`;
+    }
+    document.getElementById('date').value = getTaiwanDate();
+
+    // 控制「其他」輸入框顯示
+    const radioFields = [
+      'ad', 'sign', 'top', 'tax', 'subsidy', 'register', 'pet', 'garbage', 'parking', 'public', 'show'
+    ];
+    radioFields.forEach(function(field) {
+      const otherRadio = document.getElementById(`${field}_other_radio`);
+      const otherText = document.getElementById(`${field}_other_text`);
+      // 頁面載入時預設隱藏
+      if (otherText) otherText.style.display = 'none';
+      document.querySelectorAll(`input[name="${field}"]`).forEach(function(radio) {
+        radio.addEventListener('change', function() {
+          if (otherRadio && otherText) {
+            if (otherRadio.checked) {
+              otherText.style.display = '';
+              otherText.focus();
+            } else {
+              otherText.style.display = 'none';
+              otherText.value = '';
+            }
+          }
+        });
+      });
+    });
+
+    // 取得 radio 欄位值（含其他）
+    function getRadioValue(field) {
+      const checked = document.querySelector(`input[name="${field}"]:checked`);
+      if (!checked) return '';
+      if (checked.value === '其他') {
+        const otherText = document.getElementById(`${field}_other_text`);
+        return otherText && otherText.value ? otherText.value : '其他';
+      }
+      return checked.value;
+    }
+
+    // 產生格式內容
+    function generate() {
+      const form = document.getElementById('houseForm');
+      const data = new FormData(form);
+      let output =
+        `日期：${data.get('date')}\n` +
+        `可否廣告：${getRadioValue('ad')}\n` +
+        `可否簽委托書：${getRadioValue('sign')}\n` +
+        `地址：${data.get('address')}\n` +
+        `如為頂加是否為民國84年前增建：${getRadioValue('top')}\n` +
+        `房號：${data.get('room')}\n` +
+        `總樓層：${data.get('floor')}\n` +
+        `建物型態：${data.get('type')}\n` +
+        `坪數：${data.get('area')}\n` +
+        `格局：${data.get('layout')}\n` +
+        `租金：${data.get('rent')}\n` +
+        `管理費：${data.get('fee')}\n` +
+        `底價：${data.get('base')}\n` +
+        `報稅：${getRadioValue('tax')}\n` +
+        `租補：${getRadioValue('subsidy')}\n` +
+        `入籍：${getRadioValue('register')}\n` +
+        `寵物：${getRadioValue('pet')}\n` +
+        `垃圾代收：${getRadioValue('garbage')}\n` +
+        `停車位：${getRadioValue('parking')}\n` +
+        `公設：${getRadioValue('public')}\n` +
+        `電費$/度：${data.get('electric')}\n` +
+        `水費：${data.get('water')}\n` +
+        `瓦斯：${data.get('gas')}\n` +
+        `鄰近交通(站點/分鐘)：${data.get('traffic')}\n` +
+        `帶看方式：${getRadioValue('show')}\n` +
+        `附加設備：${data.get('equip')}\n` +
+        `注意事項(生活機能、東服等補充)：${data.get('note')}\n` +
+        `開發：${data.get('dev')}`;
+      document.getElementById('output').value = output;
+    }
+
+    // 複製內容到剪貼簿
+    function copyText() {
+      const output = document.getElementById('output');
+      output.select();
+      document.execCommand('copy');
+      alert('已複製到剪貼簿！');
+    }
+  </script>
+</body>
+</html>
