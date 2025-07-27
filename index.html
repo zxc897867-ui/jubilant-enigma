@@ -23,6 +23,7 @@
     .tip-link { color: #1976d2; text-decoration: underline; cursor: pointer; font-size: 15px; }
     .tip-content { display: none; position: absolute; left: 0; top: 24px; background: #222; color: #fff; padding: 10px 14px; border-radius: 6px; font-size: 15px; z-index: 99; min-width: 220px; max-width: 80vw; box-shadow: 0 2px 8px rgba(0,0,0,0.2); word-break: break-all; }
     .tooltip.show .tip-content { display: block; }
+    .hidden { display: none; }
     
     /* 手機優化：選項按鈕保持在同一排 */
     .radio-group {
@@ -152,55 +153,7 @@
       <label><input type="radio" name="sign" value="不可">不可</label>
     </div>
     
-    <!-- 頂加是否為民國84年前增建 -->
-    <div class="radio-group">
-      <span>頂加是否為民國84年前增建：</span>
-      <label><input type="radio" name="top" value="是">是</label>
-      <label><input type="radio" name="top" value="否">否</label>
-    </div>
-    
-    <!-- 報稅 -->
-    <div class="radio-group">
-      <span>報稅：</span>
-      <label><input type="radio" name="tax" value="可">可</label>
-      <label><input type="radio" name="tax" value="否">否</label>
-    </div>
-    
-    <!-- 租補 -->
-    <div class="radio-group">
-      <span>租補：</span>
-      <label><input type="radio" name="subsidy" value="可">可</label>
-      <label><input type="radio" name="subsidy" value="否">否</label>
-      <label><input type="radio" name="subsidy" value="其他">其他</label>
-    </div>
-    
-    <!-- 入籍 -->
-    <div class="radio-group">
-      <span>入籍：</span>
-      <label><input type="radio" name="register" value="可">可</label>
-      <label><input type="radio" name="register" value="否">否</label>
-      <label><input type="radio" name="register" value="其他">其他</label>
-    </div>
-    
-    <!-- 寵物 -->
-    <div class="radio-group">
-      <span>寵物：</span>
-      <label><input type="radio" name="pet" value="否">否</label>
-      <label><input type="radio" name="pet" value="可">可</label>
-      <label><input type="radio" name="pet" value="可貓">可貓</label>
-      <label><input type="radio" name="pet" value="可狗">可狗</label>
-      <label><input type="radio" name="pet" value="其他">其他</label>
-    </div>
-    
-    <!-- 停車位 -->
-    <div class="radio-group">
-      <span>停車位：</span>
-      <label><input type="radio" name="parking" value="有">有</label>
-      <label><input type="radio" name="parking" value="無">無</label>
-      <label><input type="radio" name="parking" value="其他">其他</label>
-    </div>
-    
-    <!-- 其餘欄位同你原本的表單 -->
+    <!-- 地址 -->
     <label>
       地址
       <span class="tooltip">
@@ -209,6 +162,20 @@
       </span>
       ：<input name="address" class="auto-grow" required>
     </label>
+    
+    <!-- 頂加是否為民國84年前增建 -->
+    <div class="radio-group">
+      <span>頂加是否為民國84年前增建：</span>
+      <label><input type="radio" name="top" value="是">是</label>
+      <label><input type="radio" name="top" value="否">否</label>
+    </div>
+    
+    <!-- 房號 -->
+    <label>房號：<input name="room" class="auto-grow">
+      <label style="display:inline;"><input type="radio" name="room_none" value="無">無</label>
+    </label>
+    
+    <!-- 總樓層 -->
     <label>
       總樓層
       <span class="tooltip">
@@ -217,6 +184,8 @@
       </span>
       ：<input name="floor" class="auto-grow" required>
     </label>
+    
+    <!-- 建物型態 -->
     <label>
       建物型態
       <span class="tooltip">
@@ -225,6 +194,8 @@
       </span>
       ：<input name="type" class="auto-grow" required>
     </label>
+    
+    <!-- 坪數 -->
     <label>
       坪數
       <span class="tooltip">
@@ -233,6 +204,8 @@
       </span>
       ：<input name="area" class="auto-grow" required>
     </label>
+    
+    <!-- 格局 -->
     <label>
       格局
       <span class="tooltip">
@@ -248,7 +221,11 @@
       <label><input type="checkbox" name="layout_option" value="開放式">開放式</label>
       <label><input type="checkbox" name="layout_option" value="樓中樓">樓中樓</label>
     </label>
+    
+    <!-- 租金 -->
     <label>租金：<input name="rent" class="auto-grow" required></label>
+    
+    <!-- 管理費 -->
     <label>
       管理費
       <span class="tooltip">
@@ -258,7 +235,65 @@
       ：<input name="fee" class="auto-grow" required>
       <label style="display:inline;"><input type="radio" name="fee_none" value="無">無</label>
     </label>
+    
+    <!-- 底價 -->
     <label>底價：<input name="base" class="auto-grow" required></label>
+    
+    <!-- 報稅 -->
+    <div class="radio-group">
+      <span>報稅：</span>
+      <label><input type="radio" name="tax" value="可">可</label>
+      <label><input type="radio" name="tax" value="否">否</label>
+      <label><input type="checkbox" id="tax_other_checkbox" value="其他">其他</label>
+      <input type="text" id="tax_other_text" class="auto-grow hidden" placeholder="請輸入其他說明">
+    </div>
+    
+    <!-- 租補 -->
+    <div class="radio-group">
+      <span>租補：</span>
+      <label><input type="radio" name="subsidy" value="可">可</label>
+      <label><input type="radio" name="subsidy" value="否">否</label>
+      <label><input type="checkbox" id="subsidy_other_checkbox" value="其他">其他</label>
+      <input type="text" id="subsidy_other_text" class="auto-grow hidden" placeholder="請輸入其他說明">
+    </div>
+    
+    <!-- 入籍 -->
+    <div class="radio-group">
+      <span>入籍：</span>
+      <label><input type="radio" name="register" value="可">可</label>
+      <label><input type="radio" name="register" value="否">否</label>
+      <label><input type="checkbox" id="register_other_checkbox" value="其他">其他</label>
+      <input type="text" id="register_other_text" class="auto-grow hidden" placeholder="請輸入其他說明">
+    </div>
+    
+    <!-- 寵物 -->
+    <div class="radio-group">
+      <span>寵物：</span>
+      <label><input type="radio" name="pet" value="否">否</label>
+      <label><input type="radio" name="pet" value="可">可</label>
+      <label><input type="radio" name="pet" value="可貓">可貓</label>
+      <label><input type="radio" name="pet" value="可狗">可狗</label>
+      <label><input type="checkbox" id="pet_other_checkbox" value="其他">其他</label>
+      <input type="text" id="pet_other_text" class="auto-grow hidden" placeholder="請輸入其他說明">
+    </div>
+    
+    <!-- 垃圾代收 -->
+    <div class="radio-group">
+      <span>垃圾代收：</span>
+      <label><input type="radio" name="garbage" value="有">有</label>
+      <label><input type="radio" name="garbage" value="無">無</label>
+    </div>
+    
+    <!-- 停車位 -->
+    <div class="radio-group">
+      <span>停車位：</span>
+      <label><input type="radio" name="parking" value="有">有</label>
+      <label><input type="radio" name="parking" value="無">無</label>
+      <label><input type="checkbox" name="parking_other" value="機車位">機車位</label>
+      <label><input type="checkbox" name="parking_other" value="汽車位">汽車位</label>
+    </div>
+    
+    <!-- 公設 -->
     <label>
       公設
       <span class="tooltip">
@@ -267,6 +302,8 @@
       </span>
       ：<input name="public" class="auto-grow" placeholder="請填寫公設內容">
     </label>
+    
+    <!-- 電費 -->
     <label>
       電費$/度
       <span class="tooltip">
@@ -275,6 +312,8 @@
       </span>
       ：<input name="electric" class="auto-grow" required>
     </label>
+    
+    <!-- 水費 -->
     <label>
       水費
       <span class="tooltip">
@@ -283,6 +322,8 @@
       </span>
       ：<input name="water" class="auto-grow" required>
     </label>
+    
+    <!-- 瓦斯 -->
     <label>
       瓦斯
       <span class="tooltip">
@@ -291,15 +332,27 @@
       </span>
       ：<input name="gas" class="auto-grow" required>
     </label>
+    
+    <!-- 鄰近交通 -->
     <label>鄰近交通(站點/分鐘)：<input name="traffic" class="auto-grow" required></label>
+    
+    <!-- 帶看方式 -->
     <label>帶看方式：<input name="show" class="auto-grow" required></label>
+    
+    <!-- 附加設備 -->
     <label>附加設備：<textarea name="equip" class="square-textarea" required></textarea></label>
+    
+    <!-- 注意事項 -->
     <label>注意事項(生活機能、東服等補充)：<textarea name="note" class="square-textarea" required></textarea></label>
+    
+    <!-- 開發 -->
     <label>開發：<input name="dev" class="auto-grow" required></label>
+    
     <button type="button" onclick="generate()">產生格式</button>
     <button type="button" onclick="copyText()">複製內容</button>
   </form>
   <textarea id="output" readonly placeholder="這裡會自動產生格式內容" oninput="autoGrow(this)"></textarea>
+  
   <script>
     // 手機友善說明提示
     function showTip(link) {
@@ -316,77 +369,30 @@
       }
     });
 
-    // 顯示/隱藏備註欄
-    function toggleRadioInput(radioName, yesId) {
-      document.querySelectorAll(`input[name="${radioName}"]`).forEach(function(radio) {
-        radio.addEventListener('change', function() {
-          if (yesId) document.getElementById(yesId).style.display = (radio.value === "可" || radio.value === "有") && radio.checked ? 'inline-block' : 'none';
-          if (yesId && document.getElementById(yesId).style.display === 'none') document.getElementById(yesId).value = '';
-        });
-      });
-    }
-    toggleRadioInput('tax', 'tax_yes_text');
-    toggleRadioInput('subsidy', 'subsidy_yes_text');
-    toggleRadioInput('register', 'register_yes_text');
-    toggleRadioInput('parking', 'parking_yes_text');
+    // 其他選項的顯示/隱藏邏輯
+    const otherCheckboxes = [
+      { checkbox: 'tax_other_checkbox', text: 'tax_other_text' },
+      { checkbox: 'subsidy_other_checkbox', text: 'subsidy_other_text' },
+      { checkbox: 'register_other_checkbox', text: 'register_other_text' },
+      { checkbox: 'pet_other_checkbox', text: 'pet_other_text' }
+    ];
 
-    // 報稅其他複選備註
-    const taxOtherCheckbox = document.getElementById('tax_other_checkbox');
-    const taxOtherText = document.getElementById('tax_other_text');
-    if (taxOtherCheckbox && taxOtherText) {
-      taxOtherCheckbox.addEventListener('change', function() {
-        if (taxOtherCheckbox.checked) {
-          taxOtherText.style.display = 'inline-block';
-          taxOtherText.focus();
-        } else {
-          taxOtherText.style.display = 'none';
-          taxOtherText.value = '';
-        }
-      });
-    }
-    // 租補其他複選備註
-    const subsidyOtherCheckbox = document.getElementById('subsidy_other_checkbox');
-    const subsidyOtherText = document.getElementById('subsidy_other_text');
-    if (subsidyOtherCheckbox && subsidyOtherText) {
-      subsidyOtherCheckbox.addEventListener('change', function() {
-        if (subsidyOtherCheckbox.checked) {
-          subsidyOtherText.style.display = 'inline-block';
-          subsidyOtherText.focus();
-        } else {
-          subsidyOtherText.style.display = 'none';
-          subsidyOtherText.value = '';
-        }
-      });
-    }
-    // 入籍其他複選備註
-    const registerOtherCheckbox = document.getElementById('register_other_checkbox');
-    const registerOtherText = document.getElementById('register_other_text');
-    if (registerOtherCheckbox && registerOtherText) {
-      registerOtherCheckbox.addEventListener('change', function() {
-        if (registerOtherCheckbox.checked) {
-          registerOtherText.style.display = 'inline-block';
-          registerOtherText.focus();
-        } else {
-          registerOtherText.style.display = 'none';
-          registerOtherText.value = '';
-        }
-      });
-    }
-    // 寵物複選的其他
-    const petOtherCheckbox = document.getElementById('pet_other_checkbox');
-    const petOtherText = document.getElementById('pet_other_text');
-    if (petOtherCheckbox && petOtherText) {
-      petOtherCheckbox.addEventListener('change', function() {
-        if (petOtherCheckbox.checked) {
-          petOtherText.style.display = 'inline-block';
-          petOtherText.focus();
-          adjustInputWidth(petOtherText);
-        } else {
-          petOtherText.style.display = 'none';
-          petOtherText.value = '';
-        }
-      });
-    }
+    otherCheckboxes.forEach(function(item) {
+      const checkbox = document.getElementById(item.checkbox);
+      const textInput = document.getElementById(item.text);
+      if (checkbox && textInput) {
+        checkbox.addEventListener('change', function() {
+          if (checkbox.checked) {
+            textInput.classList.remove('hidden');
+            textInput.focus();
+            adjustInputWidth(textInput);
+          } else {
+            textInput.classList.add('hidden');
+            textInput.value = '';
+          }
+        });
+      }
+    });
 
     // 讓所有 .auto-grow input 根據內容自動變長
     function adjustInputWidth(input) {
@@ -403,16 +409,12 @@
       span.textContent = input.value || input.placeholder || '';
       input.style.width = Math.max(120, span.offsetWidth + 20) + 'px';
     }
+    
     document.querySelectorAll('.auto-grow').forEach(function(input) {
       input.addEventListener('input', function() {
         adjustInputWidth(this);
       });
       adjustInputWidth(input);
-    });
-    document.querySelectorAll('input[type="text"]').forEach(function(input) {
-      input.addEventListener('input', function() {
-        adjustInputWidth(this);
-      });
     });
 
     // 讓產生格式的 textarea 自動變高
@@ -450,8 +452,10 @@
         arr.push(checked.value);
       }
       const taxOther = document.getElementById('tax_other_checkbox');
+      const taxOtherText = document.getElementById('tax_other_text');
       if (taxOther && taxOther.checked) {
-        arr.push('其他');
+        const otherValue = taxOtherText.value.trim();
+        arr.push(otherValue ? `其他(${otherValue})` : '其他');
       }
       return arr.join('、');
     }
@@ -464,8 +468,10 @@
         arr.push(checked.value);
       }
       const subsidyOther = document.getElementById('subsidy_other_checkbox');
+      const subsidyOtherText = document.getElementById('subsidy_other_text');
       if (subsidyOther && subsidyOther.checked) {
-        arr.push('其他');
+        const otherValue = subsidyOtherText.value.trim();
+        arr.push(otherValue ? `其他(${otherValue})` : '其他');
       }
       return arr.join('、');
     }
@@ -478,8 +484,26 @@
         arr.push(checked.value);
       }
       const registerOther = document.getElementById('register_other_checkbox');
+      const registerOtherText = document.getElementById('register_other_text');
       if (registerOther && registerOther.checked) {
-        arr.push('其他');
+        const otherValue = registerOtherText.value.trim();
+        arr.push(otherValue ? `其他(${otherValue})` : '其他');
+      }
+      return arr.join('、');
+    }
+
+    // 寵物產生格式
+    function getPetValue() {
+      const checked = document.querySelector('input[name="pet"]:checked');
+      let arr = [];
+      if (checked) {
+        arr.push(checked.value);
+      }
+      const petOther = document.getElementById('pet_other_checkbox');
+      const petOtherText = document.getElementById('pet_other_text');
+      if (petOther && petOther.checked) {
+        const otherValue = petOtherText.value.trim();
+        arr.push(otherValue ? `其他(${otherValue})` : '其他');
       }
       return arr.join('、');
     }
@@ -497,47 +521,38 @@
       return arr.join('、');
     }
 
-    // 取得寵物複選值
-    function getPetValue() {
-      let arr = [];
-      document.querySelectorAll('input[name="pet"]:checked').forEach(function(cb) {
-        arr.push(cb.value);
-      });
-      return arr.join('、');
-    }
-
     // 產生格式內容
     function generate() {
       const data = new FormData(document.getElementById('houseForm'));
       let output =
-        `日期：${data.get('date')} 今日物件：${data.get('today_obj')}\n\n` +
-        `可否廣告：${data.get('ad')}\n\n` +
-        `可否簽委托書：${data.get('sign')}\n\n` +
-        `地址：${data.get('address')}\n\n` +
-        `頂加是否為民國84年前增建：${data.get('top')}\n\n` +
-        `房號：${data.get('room')}${data.get('room_none') ? '（無）' : ''}\n\n` +
-        `總樓層：${data.get('floor')}\n\n` +
-        `建物型態：${data.get('type')}\n\n` +
-        `坪數：${data.get('area')}\n\n` +
+        `日期：${data.get('date')} 今日物件：${data.get('today_obj') || ''}\n\n業務代租進件格式如下\n\n` +
+        `可否廣告：${data.get('ad') || ''}\n\n` +
+        `可否簽委托書：${data.get('sign') || ''}\n\n` +
+        `地址：${data.get('address') || ''}\n\n` +
+        `頂加是否為民國84年前增建：${data.get('top') || ''}\n\n` +
+        `房號：${data.get('room') || ''}${data.get('room_none') ? '（無）' : ''}\n\n` +
+        `總樓層：${data.get('floor') || ''}\n\n` +
+        `建物型態：${data.get('type') || ''}\n\n` +
+        `坪數：${data.get('area') || ''}\n\n` +
         `格局：${getLayoutValue()}\n\n` +
-        `租金：${data.get('rent')}\n\n` +
-        `管理費：${data.get('fee')}${data.get('fee_none') ? '（無）' : ''}\n\n` +
-        `底價：${data.get('base')}\n\n` +
+        `租金：${data.get('rent') || ''}\n\n` +
+        `管理費：${data.get('fee') || ''}${data.get('fee_none') ? '（無）' : ''}\n\n` +
+        `底價：${data.get('base') || ''}\n\n` +
         `報稅：${getTaxValue()}\n\n` +
         `租補：${getSubsidyValue()}\n\n` +
         `入籍：${getRegisterValue()}\n\n` +
         `寵物：${getPetValue()}\n\n` +
-        `垃圾代收：${data.get('garbage')}\n\n` +
+        `垃圾代收：${data.get('garbage') || ''}\n\n` +
         `停車位：${getParkingValue()}\n\n` +
-        `公設：${data.get('public')}\n\n` +
-        `電費$/度：${data.get('electric')}\n\n` +
-        `水費：${data.get('water')}\n\n` +
-        `瓦斯：${data.get('gas')}\n\n` +
-        `鄰近交通(站點/分鐘)：${data.get('traffic')}\n\n` +
-        `帶看方式：${data.get('show')}\n\n` +
-        `附加設備：${data.get('equip')}\n\n` +
-        `注意事項(生活機能、東服等補充)：${data.get('note')}\n\n` +
-        `開發：${data.get('dev')}`;
+        `公設：${data.get('public') || ''}\n\n` +
+        `電費$/度：${data.get('electric') || ''}\n\n` +
+        `水費：${data.get('water') || ''}\n\n` +
+        `瓦斯：${data.get('gas') || ''}\n\n` +
+        `鄰近交通(站點/分鐘)：${data.get('traffic') || ''}\n\n` +
+        `帶看方式：${data.get('show') || ''}\n\n` +
+        `附加設備：${data.get('equip') || ''}\n\n` +
+        `注意事項(生活機能、東服等補充)：${data.get('note') || ''}\n\n` +
+        `開發：${data.get('dev') || ''}`;
       document.getElementById('output').value = output;
       autoGrow(document.getElementById('output'));
     }
