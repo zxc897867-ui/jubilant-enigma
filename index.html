@@ -9,88 +9,20 @@
     label { display: block; margin: 8px 0 2px; }
     input[type="text"], select, textarea { box-sizing: border-box; }
     input[type="radio"], input[type="checkbox"] { width: auto; margin-right: 4px; vertical-align: middle; }
-    .option-inline {
-      display: flex;
-      flex-wrap: nowrap;
-      align-items: center;
-      gap: 12px;
-      overflow-x: auto;
-    }
-    .option-inline label {
-      margin-right: 8px;
-      white-space: nowrap;
-    }
-    .option-inline input[type="text"] {
-      margin-left: 4px;
-    }
-    .radio-group input[type="text"], .checkbox-group input[type="text"] {
-      min-width: 120px;
-      width: auto;
-      max-width: 60vw;
-      margin-left: 4px;
-      display: none;
-      vertical-align: middle;
-      transition: width 0.2s;
-    }
-    .auto-grow {
-      min-width: 120px;
-      width: auto;
-      max-width: 60vw;
-      transition: width 0.2s;
-    }
-    .square-textarea {
-      width: 200px;
-      height: 200px;
-      resize: both;
-      font-size: 16px;
-      box-sizing: border-box;
-      display: block;
-    }
-    .flex-row { display: flex; align-items: center; gap: 8px; }
+    .auto-grow { min-width: 120px; width: auto; max-width: 60vw; transition: width 0.2s; }
+    .square-textarea { width: 200px; height: 200px; resize: both; font-size: 16px; box-sizing: border-box; display: block; }
     .small-input { width: 30px; text-align: center; }
     input[type="radio"]:checked, input[type="checkbox"]:checked { accent-color: orange; }
     textarea { margin-top: 10px; width: 100%; font-size: 18px; }
     button { margin: 10px 5px 0 0; padding: 8px 16px; }
     .row { display: flex; gap: 0; align-items: center; }
     .row label, .row input { flex: unset; }
-    #date, #today_obj {
-      width: 140px;
-      max-width: 40vw;
-      height: 36px;
-      border-radius: 4px;
-      font-size: 16px;
-      padding: 4px 8px;
-      margin-right: 10px;
-    }
-    .tooltip {
-      position: relative;
-      display: inline-block;
-    }
-    .tip-link {
-      color: #1976d2;
-      text-decoration: underline;
-      cursor: pointer;
-      font-size: 15px;
-    }
-    .tip-content {
-      display: none;
-      position: absolute;
-      left: 0;
-      top: 24px;
-      background: #222;
-      color: #fff;
-      padding: 10px 14px;
-      border-radius: 6px;
-      font-size: 15px;
-      z-index: 99;
-      min-width: 220px;
-      max-width: 80vw;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      word-break: break-all;
-    }
-    .tooltip.show .tip-content {
-      display: block;
-    }
+    #date { width: 140px; max-width: 40vw; height: 36px; border-radius: 4px; font-size: 16px; padding: 4px 8px; margin-right: 10px; }
+    #today_obj { width: 300px; max-width: 90vw; height: 36px; border-radius: 4px; font-size: 16px; padding: 4px 8px; }
+    .tooltip { position: relative; display: inline-block; }
+    .tip-link { color: #1976d2; text-decoration: underline; cursor: pointer; font-size: 15px; }
+    .tip-content { display: none; position: absolute; left: 0; top: 24px; background: #222; color: #fff; padding: 10px 14px; border-radius: 6px; font-size: 15px; z-index: 99; min-width: 220px; max-width: 80vw; box-shadow: 0 2px 8px rgba(0,0,0,0.2); word-break: break-all; }
+    .tooltip.show .tip-content { display: block; }
   </style>
 </head>
 <body>
@@ -101,30 +33,58 @@
       <label style="min-width:50px;margin-right:4px;">日期</label>
       <input name="date" id="date" readonly>
       <span style="margin-right:4px;">今日物件</span>
-      <input name="today_obj" id="today_obj" class="auto-grow" placeholder="可填寫">
+      <input name="today_obj" id="today_obj" placeholder="可填寫" style="width:300px;max-width:90vw;">
     </div>
     <!-- 可否廣告 -->
     <label>可否廣告：
-      <span class="option-inline">
-        <label><input type="radio" name="ad" value="可刊登">可刊登</label>
-        <input type="text" id="ad_yes_text" name="ad_yes_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
-        <label><input type="radio" name="ad" value="不可刊登591可刊登其他平台">不可刊登591可刊登其他平台</label>
-        <input type="text" id="ad_no_text" name="ad_no_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
-        <label><input type="radio" name="ad" value="不可刊登">不可刊登</label>
-        <input type="text" id="ad_no2_text" name="ad_no2_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
-      </span>
+      <input type="radio" name="ad" value="可刊登">可刊登
+      <input type="radio" name="ad" value="不可刊登591可刊登其他平台">不可刊登591可刊登其他平台
+      <input type="radio" name="ad" value="不可刊登">不可刊登
     </label>
     <!-- 可否簽委托書 -->
     <label>可否簽委托書：
-      <span class="option-inline">
-        <label><input type="radio" name="sign" value="可(已簽)">可(已簽)</label>
-        <label><input type="radio" name="sign" value="可(可補簽)">可(可補簽)</label>
-        <label><input type="radio" name="sign" value="不可(可上架廣告)">不可(可上架廣告)</label>
-        <label><input type="radio" name="sign" value="不可" id="sign_no_radio">不可</label>
-        <input type="text" id="sign_no_text" name="sign_no_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
-      </span>
+      <input type="radio" name="sign" value="可(已簽)">可(已簽)
+      <input type="radio" name="sign" value="可(可補簽)">可(可補簽)
+      <input type="radio" name="sign" value="不可(可上架廣告)">不可(可上架廣告)
+      <input type="radio" name="sign" value="不可">不可
     </label>
-    <!-- 地址加說明 -->
+    <!-- 頂加是否為民國84年前增建 -->
+    <label>頂加是否為民國84年前增建：
+      <input type="radio" name="top" value="是">是
+      <input type="radio" name="top" value="否">否
+    </label>
+    <!-- 報稅 -->
+    <label>報稅：
+      <input type="radio" name="tax" value="可">可
+      <input type="radio" name="tax" value="否">否
+    </label>
+    <!-- 租補 -->
+    <label>租補：
+      <input type="radio" name="subsidy" value="可">可
+      <input type="radio" name="subsidy" value="否">否
+      <input type="radio" name="subsidy" value="其他">其他
+    </label>
+    <!-- 入籍 -->
+    <label>入籍：
+      <input type="radio" name="register" value="可">可
+      <input type="radio" name="register" value="否">否
+      <input type="radio" name="register" value="其他">其他
+    </label>
+    <!-- 寵物 -->
+    <label>寵物：
+      <input type="radio" name="pet" value="否">否
+      <input type="radio" name="pet" value="可">可
+      <input type="radio" name="pet" value="可貓">可貓
+      <input type="radio" name="pet" value="可狗">可狗
+      <input type="radio" name="pet" value="其他">其他
+    </label>
+    <!-- 停車位 -->
+    <label>停車位：
+      <input type="radio" name="parking" value="有">有
+      <input type="radio" name="parking" value="無">無
+      <input type="radio" name="parking" value="其他">其他
+    </label>
+    <!-- 其餘欄位同你原本的表單 -->
     <label>
       地址
       <span class="tooltip">
@@ -133,30 +93,6 @@
       </span>
       ：<input name="address" class="auto-grow" required>
     </label>
-    <!-- 頂加是否為民國84年前增建加說明 -->
-    <label>
-      頂加是否為民國84年前增建
-      <span class="tooltip">
-        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
-        <span class="tip-content">如果是頂加需詢問房東是否為84年前增建，不是的話會有被拆除的風險</span>
-      </span>
-      ：
-      <span class="option-inline">
-        <label><input type="radio" name="top" value="是">是</label>
-        <label><input type="radio" name="top" value="否">否</label>
-      </span>
-    </label>
-    <!-- 房號加說明，無選項在空白格後方 -->
-    <label>
-      房號
-      <span class="tooltip">
-        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
-        <span class="tip-content">如為分套/雅房（會有房號、或大門到房間門的路徑怎麼走）方便後續行銷人員帶看</span>
-      </span>
-      ：<input name="room" class="auto-grow" required>
-      <label style="display:inline;"><input type="radio" name="room_none" value="無">無</label>
-    </label>
-    <!-- 總樓層加說明 -->
     <label>
       總樓層
       <span class="tooltip">
@@ -165,7 +101,6 @@
       </span>
       ：<input name="floor" class="auto-grow" required>
     </label>
-    <!-- 建物型態加說明 -->
     <label>
       建物型態
       <span class="tooltip">
@@ -174,7 +109,6 @@
       </span>
       ：<input name="type" class="auto-grow" required>
     </label>
-    <!-- 坪數加說明 -->
     <label>
       坪數
       <span class="tooltip">
@@ -183,7 +117,6 @@
       </span>
       ：<input name="area" class="auto-grow" required>
     </label>
-    <!-- 格局加說明，資料直接接在冒號後面 -->
     <label>
       格局
       <span class="tooltip">
@@ -191,22 +124,15 @@
         <span class="tip-content">請依現況格局如實填寫，若未如實填寫，後續若致生爭議，須自行負責！</span>
       </span>
       ：
-      <input type="text" name="layout_room" class="small-input" maxlength="2" placeholder="房">
-      房
-      <input type="text" name="layout_living" class="small-input" maxlength="2" placeholder="廳">
-      廳
-      <input type="text" name="layout_bath" class="small-input" maxlength="2" placeholder="衛浴">
-      衛浴
-      <input type="text" name="layout_kitchen" class="small-input" maxlength="2" placeholder="廚房">
-      廚房
-      <input type="text" name="layout_balcony" class="small-input" maxlength="2" placeholder="陽台">
-      陽台
+      <input type="text" name="layout_room" class="small-input" maxlength="2" placeholder="房"> 房
+      <input type="text" name="layout_living" class="small-input" maxlength="2" placeholder="廳"> 廳
+      <input type="text" name="layout_bath" class="small-input" maxlength="2" placeholder="衛浴"> 衛浴
+      <input type="text" name="layout_kitchen" class="small-input" maxlength="2" placeholder="廚房"> 廚房
+      <input type="text" name="layout_balcony" class="small-input" maxlength="2" placeholder="陽台"> 陽台
       <label><input type="checkbox" name="layout_option" value="開放式">開放式</label>
       <label><input type="checkbox" name="layout_option" value="樓中樓">樓中樓</label>
     </label>
-    <!-- 租金 -->
     <label>租金：<input name="rent" class="auto-grow" required></label>
-    <!-- 管理費加說明，無選項在空白格後方 -->
     <label>
       管理費
       <span class="tooltip">
@@ -216,82 +142,7 @@
       ：<input name="fee" class="auto-grow" required>
       <label style="display:inline;"><input type="radio" name="fee_none" value="無">無</label>
     </label>
-    <!-- 底價 -->
     <label>底價：<input name="base" class="auto-grow" required></label>
-    <!-- 報稅加說明 -->
-    <label>
-      報稅
-      <span class="tooltip">
-        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
-        <span class="tip-content">(可否讓租客申請報稅/公證)</span>
-      </span>
-      ：
-      <span class="option-inline">
-        <label><input type="radio" name="tax" value="可" id="tax_yes_radio">可</label>
-        <input type="text" id="tax_yes_text" name="tax_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
-        <label><input type="radio" name="tax" value="不可">不可</label>
-        <label><input type="checkbox" name="tax_other" value="其他" id="tax_other_checkbox">其他</label>
-        <input type="text" id="tax_other_text" name="tax_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
-      </span>
-    </label>
-    <!-- 租補 -->
-    <label>租補：
-      <span class="option-inline">
-        <label><input type="radio" name="subsidy" value="可" id="subsidy_yes_radio">可</label>
-        <input type="text" id="subsidy_yes_text" name="subsidy_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
-        <label><input type="radio" name="subsidy" value="不可">不可</label>
-        <label><input type="checkbox" name="subsidy_other" value="其他" id="subsidy_other_checkbox">其他</label>
-        <input type="text" id="subsidy_other_text" name="subsidy_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
-      </span>
-    </label>
-    <!-- 入籍 -->
-    <label>入籍：
-      <span class="option-inline">
-        <label><input type="radio" name="register" value="可" id="register_yes_radio">可</label>
-        <input type="text" id="register_yes_text" name="register_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
-        <label><input type="radio" name="register" value="不可">不可</label>
-        <label><input type="checkbox" name="register_other" value="其他" id="register_other_checkbox">其他</label>
-        <input type="text" id="register_other_text" name="register_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
-      </span>
-    </label>
-    <!-- 寵物 -->
-    <label>寵物：
-      <span class="option-inline">
-        <label><input type="checkbox" name="pet" value="可寵">可寵</label>
-        <label><input type="checkbox" name="pet" value="可寵(可談)">可寵(可談)</label>
-        <label><input type="checkbox" name="pet" value="可貓">可貓</label>
-        <label><input type="checkbox" name="pet" value="可狗">可狗</label>
-        <label><input type="checkbox" name="pet" value="其他" id="pet_other_checkbox">其他</label>
-        <input type="text" id="pet_other_text" name="pet_other" placeholder="請輸入其他內容" style="display:none;" size="8">
-      </span>
-    </label>
-    <!-- 垃圾代收加說明 -->
-    <label>
-      垃圾代收
-      <span class="tooltip">
-        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
-        <span class="tip-content">有無垃圾袋收，有的話是否需要專用垃圾袋</span>
-      </span>
-      ：<input name="garbage" class="auto-grow" required>
-    </label>
-    <!-- 停車位 -->
-    <label>
-      停車位
-      <span class="tooltip">
-        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
-        <span class="tip-content">有沒有停車位（在哪、停車位形式、計費方式皆需問清楚）讓行銷人員好介紹機械 平面 高度寬度</span>
-      </span>
-      ：
-      <span class="option-inline">
-        <label><input type="radio" name="parking" value="有" id="parking_yes_radio">有</label>
-        <input type="text" id="parking_yes_text" name="parking_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
-        <label><input type="radio" name="parking" value="無">無</label>
-        <label><input type="checkbox" name="parking_other" value="機械">機械</label>
-        <label><input type="checkbox" name="parking_other" value="平面">平面</label>
-        <label><input type="checkbox" name="parking_other" value="其他">其他</label>
-      </span>
-    </label>
-    <!-- 公設 -->
     <label>
       公設
       <span class="tooltip">
@@ -300,7 +151,6 @@
       </span>
       ：<input name="public" class="auto-grow" placeholder="請填寫公設內容">
     </label>
-    <!-- 電費 -->
     <label>
       電費$/度
       <span class="tooltip">
@@ -309,7 +159,6 @@
       </span>
       ：<input name="electric" class="auto-grow" required>
     </label>
-    <!-- 水費 -->
     <label>
       水費
       <span class="tooltip">
@@ -318,7 +167,6 @@
       </span>
       ：<input name="water" class="auto-grow" required>
     </label>
-    <!-- 瓦斯 -->
     <label>
       瓦斯
       <span class="tooltip">
@@ -336,7 +184,6 @@
     <button type="button" onclick="copyText()">複製內容</button>
   </form>
   <textarea id="output" readonly placeholder="這裡會自動產生格式內容" oninput="autoGrow(this)"></textarea>
-
   <script>
     // 手機友善說明提示
     function showTip(link) {
@@ -446,7 +293,7 @@
       });
       adjustInputWidth(input);
     });
-    document.querySelectorAll('.radio-group input[type="text"], .checkbox-group input[type="text"], .option-inline input[type="text"]').forEach(function(input) {
+    document.querySelectorAll('input[type="text"]').forEach(function(input) {
       input.addEventListener('input', function() {
         adjustInputWidth(this);
       });
@@ -484,17 +331,11 @@
       const checked = document.querySelector('input[name="tax"]:checked');
       let arr = [];
       if (checked) {
-        if (checked.value === '可') {
-          const txt = document.getElementById('tax_yes_text').value;
-          arr.push(txt ? `可（${txt}）` : '可');
-        } else {
-          arr.push(checked.value);
-        }
+        arr.push(checked.value);
       }
       const taxOther = document.getElementById('tax_other_checkbox');
       if (taxOther && taxOther.checked) {
-        const txt = document.getElementById('tax_other_text').value;
-        arr.push(txt ? `其他（${txt}）` : '其他');
+        arr.push('其他');
       }
       return arr.join('、');
     }
@@ -504,17 +345,11 @@
       const checked = document.querySelector('input[name="subsidy"]:checked');
       let arr = [];
       if (checked) {
-        if (checked.value === '可') {
-          const txt = document.getElementById('subsidy_yes_text').value;
-          arr.push(txt ? `可（${txt}）` : '可');
-        } else {
-          arr.push(checked.value);
-        }
+        arr.push(checked.value);
       }
       const subsidyOther = document.getElementById('subsidy_other_checkbox');
       if (subsidyOther && subsidyOther.checked) {
-        const txt = document.getElementById('subsidy_other_text').value;
-        arr.push(txt ? `其他（${txt}）` : '其他');
+        arr.push('其他');
       }
       return arr.join('、');
     }
@@ -524,17 +359,11 @@
       const checked = document.querySelector('input[name="register"]:checked');
       let arr = [];
       if (checked) {
-        if (checked.value === '可') {
-          const txt = document.getElementById('register_yes_text').value;
-          arr.push(txt ? `可（${txt}）` : '可');
-        } else {
-          arr.push(checked.value);
-        }
+        arr.push(checked.value);
       }
       const registerOther = document.getElementById('register_other_checkbox');
       if (registerOther && registerOther.checked) {
-        const txt = document.getElementById('register_other_text').value;
-        arr.push(txt ? `其他（${txt}）` : '其他');
+        arr.push('其他');
       }
       return arr.join('、');
     }
@@ -544,12 +373,7 @@
       const checked = document.querySelector('input[name="parking"]:checked');
       let arr = [];
       if (checked) {
-        if (checked.value === '有') {
-          const txt = document.getElementById('parking_yes_text').value;
-          arr.push(txt ? `有（${txt}）` : '有');
-        } else {
-          arr.push(checked.value);
-        }
+        arr.push(checked.value);
       }
       document.querySelectorAll('input[name="parking_other"]:checked').forEach(function(cb) {
         arr.push(cb.value);
@@ -561,13 +385,7 @@
     function getPetValue() {
       let arr = [];
       document.querySelectorAll('input[name="pet"]:checked').forEach(function(cb) {
-        if (cb.value === '其他') {
-          const txt = document.getElementById('pet_other_text').value;
-          if (txt) arr.push(txt);
-          else arr.push('其他');
-        } else {
-          arr.push(cb.value);
-        }
+        arr.push(cb.value);
       });
       return arr.join('、');
     }
