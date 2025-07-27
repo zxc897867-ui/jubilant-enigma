@@ -87,11 +87,11 @@
   <h2>房屋資訊自動生成器</h2>
   <form id="houseForm" autocomplete="off">
     <!-- 日期 + 今日物件 -->
-    <div class="row">
-      <label style="min-width:50px;margin-right:4px;">日期</label>
-      <input name="date" id="date" class="auto-grow" readonly>
-      <label style="margin-right:4px;">今日物件</label>
-      <input name="today_obj" id="today_obj" placeholder="可填寫" style="width:150px;max-width:35vw;">
+    <div class="row" style="flex-wrap: nowrap; overflow-x: auto;">
+      <label style="min-width:40px;margin-right:4px;flex-shrink:0;">日期</label>
+      <input name="date" id="date" style="width:100px;margin-right:8px;flex-shrink:0;" readonly>
+      <label style="margin-right:4px;flex-shrink:0;">今日物件</label>
+      <input name="today_obj" id="today_obj" placeholder="可填寫" style="width:120px;max-width:none;flex-shrink:1;min-width:80px;">
     </div>
     <!-- 可否廣告 -->
     <div class="row">
