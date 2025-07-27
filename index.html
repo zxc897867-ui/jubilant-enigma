@@ -32,17 +32,20 @@
       align-items: center;
       overflow-x: auto;
       overflow-y: visible;
-      padding-bottom: 2px;
+      padding: 4px 0;
       margin: 8px 0;
-      width: 100%;
+      width: calc(100vw - 60px);
+      max-width: 100%;
       box-sizing: border-box;
+      -webkit-overflow-scrolling: touch;
     }
     
     .radio-group span {
       font-weight: normal;
-      margin-right: 0;
+      margin-right: 8px;
       flex: 0 0 auto;
       white-space: nowrap;
+      font-size: 16px;
     }
     
     .radio-group label {
@@ -52,7 +55,8 @@
       margin: 0;
       flex: 0 0 auto;
       font-size: 16px;
-      min-width: fit-content;
+      min-width: max-content;
+      padding: 2px 0;
     }
     
     .radio-group input[type="radio"] {
@@ -64,17 +68,17 @@
     
     /* 確保內容不被截斷 */
     .radio-group::-webkit-scrollbar {
-      height: 6px;
+      height: 8px;
     }
     
     .radio-group::-webkit-scrollbar-track {
       background: #f1f1f1;
-      border-radius: 3px;
+      border-radius: 4px;
     }
     
     .radio-group::-webkit-scrollbar-thumb {
       background: #c1c1c1;
-      border-radius: 3px;
+      border-radius: 4px;
     }
     
     .radio-group::-webkit-scrollbar-thumb:hover {
@@ -83,35 +87,39 @@
     
     /* 針對手機螢幕進一步優化 */
     @media (max-width: 480px) {
+      .radio-group {
+        width: calc(100vw - 30px);
+        gap: 10px;
+      }
+      
       .radio-group label {
         font-size: 15px;
       }
       
-      .radio-group {
-        gap: 10px;
+      .radio-group span {
+        font-size: 15px;
+        margin-right: 6px;
       }
       
       body {
         margin: 15px;
       }
-      
-      .radio-group span {
-        font-size: 15px;
-      }
     }
     
     /* 非常小的螢幕優化 */
     @media (max-width: 360px) {
+      .radio-group {
+        width: calc(100vw - 20px);
+        gap: 8px;
+      }
+      
       .radio-group label {
         font-size: 14px;
       }
       
       .radio-group span {
         font-size: 14px;
-      }
-      
-      .radio-group {
-        gap: 8px;
+        margin-right: 4px;
       }
     }
   </style>
