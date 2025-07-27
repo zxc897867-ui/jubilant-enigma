@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>房屋資訊自動生成器</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     body { font-family: "微軟正黑體", Arial, sans-serif; margin: 30px; }
     label { display: block; margin: 8px 0 2px; }
@@ -39,14 +40,46 @@
     button { margin: 10px 5px 0 0; padding: 8px 16px; }
     .row { display: flex; gap: 10px; }
     .row label, .row input { flex: 1; }
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+    .tip-link {
+      color: #1976d2;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    .tip-content {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 24px;
+      background: #222;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 15px;
+      z-index: 99;
+      min-width: 220px;
+      max-width: 80vw;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      word-break: break-all;
+    }
+    .tooltip.show .tip-content {
+      display: block;
+    }
   </style>
 </head>
 <body>
   <h2>房屋資訊自動生成器</h2>
   <form id="houseForm" autocomplete="off">
+    <!-- 日期 + 今日物件 -->
     <div class="row">
       <label>日期（自動產生）</label>
-      <input name="date" id="date" readonly>
+      <input name="date" id="date" readonly style="width:120px;">
+      <span>今日物件</span>
+      <input name="today_obj" id="today_obj" class="auto-grow" placeholder="可填寫" style="width:120px;">
     </div>
     <!-- 可否廣告 -->
     <label>可否廣告：
@@ -63,79 +96,146 @@
     <label>可否簽委托書：
       <span class="radio-group">
         <label><input type="radio" name="sign" value="可(已簽)">可(已簽)</label>
-        <input type="text" id="sign_yes_text" name="sign_yes_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
         <label><input type="radio" name="sign" value="可(可補簽)">可(可補簽)</label>
-        <input type="text" id="sign_yes2_text" name="sign_yes2_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
         <label><input type="radio" name="sign" value="不可(可上架廣告)">不可(可上架廣告)</label>
-        <input type="text" id="sign_no_text" name="sign_no_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
+        <label><input type="radio" name="sign" value="不可" id="sign_no_radio">不可</label>
+        <input type="text" id="sign_no_text" name="sign_no_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
       </span>
     </label>
-    <!-- 地址 -->
-    <label>地址(詳細地址及樓層如為頂加特別註記):<input name="address" class="auto-grow" required></label>
-    <!-- 頂加是否為民國84年前增建 -->
-    <label>頂加是否為民國84年前增建如果是頂加需詢問房東是否為84年前增建，不是的話會有被拆除的風險 :
+    <!-- 地址加說明 -->
+    <label>
+      地址
+      <span class="tooltip">
+        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
+        <span class="tip-content">詳細地址及樓層如為頂加特別註記</span>
+      </span>
+      ：<input name="address" class="auto-grow" required>
+    </label>
+    <!-- 頂加是否為民國84年前增建加說明 -->
+    <label>
+      頂加是否為民國84年前增建
+      <span class="tooltip">
+        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
+        <span class="tip-content">如果是頂加需詢問房東是否為84年前增建，不是的話會有被拆除的風險</span>
+      </span>
+      ：
       <span class="radio-group">
         <label><input type="radio" name="top" value="是">是</label>
         <label><input type="radio" name="top" value="否">否</label>
       </span>
     </label>
-    <!-- 房號 -->
-    <label>房號 如為分套/雅房（會有房號、或大門到房間門的路徑怎麼走）方便後續行銷人員帶看 :<input name="room" class="auto-grow" required></label>
-    <!-- 總樓層 -->
-    <label>總樓層 所在樓層/總樓層數 :<input name="floor" class="auto-grow" required></label>
-    <!-- 建物型態 -->
-    <label>建物型態 前面為房間型態（分套、獨套、雅房）/後面為大樓的型態（公寓、電梯大樓、透天厝）:<input name="type" class="auto-grow" required></label>
-    <!-- 坪數 -->
-    <label>坪數 房內坪數（如為獨立套房/整層需調閱謄本） 頂加不用調:<input name="area" class="auto-grow" required></label>
-    <!-- 格局 -->
-    <label>格局: 
-      <span class="flex-row">
-        <input type="text" name="layout_room" class="small-input" maxlength="2" placeholder="房">
-        房
-        <input type="text" name="layout_living" class="small-input" maxlength="2" placeholder="廳">
-        廳
-        <input type="text" name="layout_bath" class="small-input" maxlength="2" placeholder="衛浴">
-        衛浴
-        <input type="text" name="layout_kitchen" class="small-input" maxlength="2" placeholder="廚房">
-        廚房
-        <input type="text" name="layout_balcony" class="small-input" maxlength="2" placeholder="陽台">
-        陽台
-        <label><input type="checkbox" name="layout_option" value="開放式">開放式</label>
-        <label><input type="checkbox" name="layout_option" value="樓中樓">樓中樓</label>
+    <!-- 房號加說明，無選項在空白格後方 -->
+    <label>
+      房號
+      <span class="tooltip">
+        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
+        <span class="tip-content">如為分套/雅房（會有房號、或大門到房間門的路徑怎麼走）方便後續行銷人員帶看</span>
       </span>
+      ：<input name="room" class="auto-grow" required>
+      <label style="display:inline;"><input type="radio" name="room_none" value="無">無</label>
+    </label>
+    <!-- 總樓層加說明 -->
+    <label>
+      總樓層
+      <span class="tooltip">
+        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
+        <span class="tip-content">所在樓層/總樓層數</span>
+      </span>
+      ：<input name="floor" class="auto-grow" required>
+    </label>
+    <!-- 建物型態加說明 -->
+    <label>
+      建物型態
+      <span class="tooltip">
+        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
+        <span class="tip-content">前面為房間型態（分套、獨套、雅房）/後面為大樓的型態（公寓、電梯大樓、透天厝）</span>
+      </span>
+      ：<input name="type" class="auto-grow" required>
+    </label>
+    <!-- 坪數加說明 -->
+    <label>
+      坪數
+      <span class="tooltip">
+        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
+        <span class="tip-content">房內坪數（如為獨立套房/整層需調閱謄本） 頂加不用調</span>
+      </span>
+      ：<input name="area" class="auto-grow" required>
+    </label>
+    <!-- 格局加說明，資料直接接在冒號後面 -->
+    <label>
+      格局
+      <span class="tooltip">
+        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
+        <span class="tip-content">請依現況格局如實填寫，若未如實填寫，後續若致生爭議，須自行負責！</span>
+      </span>
+      ：
+      <input type="text" name="layout_room" class="small-input" maxlength="2" placeholder="房">
+      房
+      <input type="text" name="layout_living" class="small-input" maxlength="2" placeholder="廳">
+      廳
+      <input type="text" name="layout_bath" class="small-input" maxlength="2" placeholder="衛浴">
+      衛浴
+      <input type="text" name="layout_kitchen" class="small-input" maxlength="2" placeholder="廚房">
+      廚房
+      <input type="text" name="layout_balcony" class="small-input" maxlength="2" placeholder="陽台">
+      陽台
+      <label><input type="checkbox" name="layout_option" value="開放式">開放式</label>
+      <label><input type="checkbox" name="layout_option" value="樓中樓">樓中樓</label>
     </label>
     <!-- 租金 -->
     <label>租金：<input name="rent" class="auto-grow" required></label>
-    <!-- 管理費 -->
-    <label>管理費 有無管理費用（若有請註記包含哪些費用ex:水費、瓦斯費、第四台費用、網路費用、垃圾代收) :<input name="fee" class="auto-grow" required></label>
+    <!-- 管理費加說明，無選項在空白格後方 -->
+    <label>
+      管理費
+      <span class="tooltip">
+        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
+        <span class="tip-content">有無管理費用（若有請註記包含哪些費用ex:水費、瓦斯費、第四台費用、網路費用、垃圾代收)</span>
+      </span>
+      ：<input name="fee" class="auto-grow" required>
+      <label style="display:inline;"><input type="radio" name="fee_none" value="無">無</label>
+    </label>
     <!-- 底價 -->
     <label>底價：<input name="base" class="auto-grow" required></label>
-    <!-- 報稅 -->
-    <label>報稅 (可否讓租客申請報稅/公證) :
+    <!-- 報稅加說明 -->
+    <label>
+      報稅
+      <span class="tooltip">
+        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
+        <span class="tip-content">(可否讓租客申請報稅/公證)</span>
+      </span>
+      ：
       <span class="radio-group">
-        <label><input type="radio" name="tax" value="可">可</label>
-        <input type="text" id="tax_yes_text" name="tax_yes_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
+        <label><input type="radio" name="tax" value="可" id="tax_yes_radio">可</label>
+        <input type="text" id="tax_yes_text" name="tax_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
         <label><input type="radio" name="tax" value="不可">不可</label>
+      </span>
+      <span class="checkbox-group">
+        <label><input type="checkbox" name="tax_other" value="其他" id="tax_other_checkbox">其他</label>
+        <input type="text" id="tax_other_text" name="tax_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
       </span>
     </label>
     <!-- 租補 -->
     <label>租補：
       <span class="radio-group">
-        <label><input type="radio" name="subsidy" value="可">可</label>
-        <input type="text" id="subsidy_yes_text" name="subsidy_yes_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
-        <label><input type="radio" name="subsidy" value="否">否</label>
-        <label><input type="radio" name="subsidy" value="其他" id="subsidy_other_radio">其他</label>
-        <input type="text" id="subsidy_other_text" name="subsidy_other" placeholder="請輸入其他內容" style="display:none;" size="8">
+        <label><input type="radio" name="subsidy" value="可" id="subsidy_yes_radio">可</label>
+        <input type="text" id="subsidy_yes_text" name="subsidy_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+        <label><input type="radio" name="subsidy" value="不可">不可</label>
+      </span>
+      <span class="checkbox-group">
+        <label><input type="checkbox" name="subsidy_other" value="其他" id="subsidy_other_checkbox">其他</label>
+        <input type="text" id="subsidy_other_text" name="subsidy_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
       </span>
     </label>
     <!-- 入籍 -->
     <label>入籍：
       <span class="radio-group">
-        <label><input type="radio" name="register" value="可">可</label>
-        <input type="text" id="register_yes_text" name="register_yes_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
+        <label><input type="radio" name="register" value="可" id="register_yes_radio">可</label>
+        <input type="text" id="register_yes_text" name="register_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
         <label><input type="radio" name="register" value="不可">不可</label>
-        <label><input type="radio" name="register" value="其他" id="register_other_radio">其他</label>
-        <input type="text" id="register_other_text" name="register_other" placeholder="請輸入其他內容" style="display:none;" size="8">
+      </span>
+      <span class="checkbox-group">
+        <label><input type="checkbox" name="register_other" value="其他" id="register_other_checkbox">其他</label>
+        <input type="text" id="register_other_text" name="register_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
       </span>
     </label>
     <!-- 寵物 -->
@@ -149,37 +249,74 @@
         <input type="text" id="pet_other_text" name="pet_other" placeholder="請輸入其他內容" style="display:none;" size="8">
       </span>
     </label>
-    <!-- 垃圾代收 -->
-    <label>垃圾代收有無垃圾袋收，有的話是否需要專用垃圾袋：
-      <span class="radio-group">
-        <label><input type="radio" name="garbage" value="有">有</label>
-        <input type="text" id="garbage_yes_text" name="garbage_yes_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
-        <label><input type="radio" name="garbage" value="無">無</label>
-        <label><input type="radio" name="garbage" value="其他" id="garbage_other_radio">其他</label>
-        <input type="text" id="garbage_other_text" name="garbage_other" placeholder="請輸入其他內容" style="display:none;" size="8">
+    <!-- 垃圾代收加說明 -->
+    <label>
+      垃圾代收
+      <span class="tooltip">
+        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
+        <span class="tip-content">有無垃圾袋收，有的話是否需要專用垃圾袋</span>
       </span>
+      ：<input name="garbage" class="auto-grow" required>
     </label>
     <!-- 停車位 -->
-    <label>停車位：
+    <label>
+      停車位
+      <span class="tooltip">
+        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
+        <span class="tip-content">有沒有停車位（在哪、停車位形式、計費方式皆需問清楚）讓行銷人員好介紹機械 平面 高度寬度</span>
+      </span>
+      ：
       <span class="radio-group">
-        <label><input type="radio" name="parking" value="有">有</label>
+        <label><input type="radio" name="parking" value="有" id="parking_yes_radio">有</label>
+        <input type="text" id="parking_yes_text" name="parking_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
         <label><input type="radio" name="parking" value="無">無</label>
-        <label><input type="radio" name="parking" value="其他" id="parking_other_radio">其他</label>
-        <input type="text" id="parking_other_text" name="parking_other" placeholder="請輸入其他內容" style="display:none;" size="8">
+      </span>
+      <span class="checkbox-group">
+        <label><input type="checkbox" name="parking_other" value="機械">機械</label>
+        <label><input type="checkbox" name="parking_other" value="平面">平面</label>
+        <label><input type="checkbox" name="parking_other" value="其他">其他</label>
       </span>
     </label>
     <!-- 公設 -->
-    <label>公設：<input name="public" class="auto-grow" placeholder="請填寫公設內容"></label>
-    <label>電費$/度：<input name="electric" class="auto-grow" required></label>
-    <label>水費：<input name="water" class="auto-grow" required></label>
+    <label>
+      公設
+      <span class="tooltip">
+        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
+        <span class="tip-content">有些分套可能會有飲水機等等，這些都可以註記，社區大樓有什麼樣的公設也可以註記 健身房 會議室 游泳池 桌球撞球室 KTV 花園等</span>
+      </span>
+      ：<input name="public" class="auto-grow" placeholder="請填寫公設內容">
+    </label>
+    <!-- 電費 -->
+    <label>
+      電費$/度
+      <span class="tooltip">
+        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
+        <span class="tip-content">電費一度費用為多少？夏季非夏季計費有無不同?若房東說帳單請標註：台電帳單</span>
+      </span>
+      ：<input name="electric" class="auto-grow" required>
+    </label>
+    <!-- 水費 -->
+    <label>
+      水費
+      <span class="tooltip">
+        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
+        <span class="tip-content">有無用水之費用，有的話金額為多少 超過多少度 收多少錢等等，若房東說帳單請標註：台水帳單</span>
+      </span>
+      ：<input name="water" class="auto-grow" required>
+    </label>
     <!-- 瓦斯 -->
-    <label>瓦斯 有無瓦斯爐（是否能開火、還是不能用明火，可用電磁爐，請另外標註天然瓦斯或是瓦斯桶，瓦斯桶不可勾天然瓦斯) :<input name="gas" class="auto-grow" required></label>
+    <label>
+      瓦斯
+      <span class="tooltip">
+        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
+        <span class="tip-content">有無瓦斯爐（是否能開火、還是不能用明火，可用電磁爐，請另外標註天然瓦斯或是瓦斯桶，瓦斯桶不可勾天然瓦斯)</span>
+      </span>
+      ：<input name="gas" class="auto-grow" required>
+    </label>
     <label>鄰近交通(站點/分鐘)：<input name="traffic" class="auto-grow" required></label>
-    <!-- 帶看方式 -->
-    <label>帶看方式 房東貴姓、聯絡電話（註記清楚方便後續行銷人員帶看）：<input name="show" class="auto-grow" required></label>
-    <!-- 附加設備正方形 -->
+    <label>帶看方式：<input name="show" class="auto-grow" required></label>
     <label>附加設備：<textarea name="equip" class="square-textarea" required></textarea></label>
-    <label>注意事項(生活機能、東服等補充)：<input name="note" class="auto-grow" required></label>
+    <label>注意事項(生活機能、東服等補充)：<textarea name="note" class="square-textarea" required></textarea></label>
     <label>開發：<input name="dev" class="auto-grow" required></label>
     <button type="button" onclick="generate()">產生格式</button>
     <button type="button" onclick="copyText()">複製內容</button>
@@ -187,65 +324,77 @@
   <textarea id="output" readonly placeholder="這裡會自動產生格式內容" oninput="autoGrow(this)"></textarea>
 
   <script>
-    // 自動產生民國日期
-    function getTaiwanDate() {
-      const today = new Date();
-      const year = today.getFullYear() - 1911;
-      const month = String(today.getMonth() + 1).padStart(2, '0');
-      const day = String(today.getDate()).padStart(2, '0');
-      return `${year}/${month}/${day}`;
-    }
-    document.getElementById('date').value = getTaiwanDate();
-
-    // 可否廣告、可否簽委托書、租補、報稅、入籍、垃圾代收、公設的補充說明顯示
-    function toggleInput(radioName, yesId, noId, yes2Id, no2Id, otherId) {
-      document.querySelectorAll(`input[name="${radioName}"]`).forEach(function(radio) {
-        radio.addEventListener('change', function() {
-          if (yesId) document.getElementById(yesId).style.display = (radio.value === "可刊登" || radio.value === "可(已簽)" || radio.value === "可" || radio.value === "可(可補簽)") && radio.checked ? 'inline-block' : 'none';
-          if (yes2Id) document.getElementById(yes2Id).style.display = (radio.value === "可(可補簽)") && radio.checked ? 'inline-block' : 'none';
-          if (noId) document.getElementById(noId).style.display = (radio.value === "不可刊登591可刊登其他平台" || radio.value === "不可(可上架廣告)" || radio.value === "不可") && radio.checked ? 'inline-block' : 'none';
-          if (no2Id) document.getElementById(no2Id).style.display = (radio.value === "不可刊登") && radio.checked ? 'inline-block' : 'none';
-          if (otherId) document.getElementById(otherId).style.display = (radio.value === "其他" && radio.checked) ? 'inline-block' : 'none';
-          // 清空未顯示的欄位
-          if (yesId && document.getElementById(yesId).style.display === 'none') document.getElementById(yesId).value = '';
-          if (yes2Id && document.getElementById(yes2Id).style.display === 'none') document.getElementById(yes2Id).value = '';
-          if (noId && document.getElementById(noId).style.display === 'none') document.getElementById(noId).value = '';
-          if (no2Id && document.getElementById(no2Id).style.display === 'none') document.getElementById(no2Id).value = '';
-          if (otherId && document.getElementById(otherId).style.display === 'none') document.getElementById(otherId).value = '';
-        });
+    // 手機友善說明提示
+    function showTip(link) {
+      document.querySelectorAll('.tooltip.show').forEach(function(tip){
+        if (tip !== link.parentNode) tip.classList.remove('show');
       });
+      link.parentNode.classList.toggle('show');
     }
-    toggleInput('ad', 'ad_yes_text', 'ad_no_text', null, 'ad_no2_text');
-    toggleInput('sign', 'sign_yes_text', 'sign_no_text', 'sign_yes2_text');
-    toggleInput('tax', 'tax_yes_text', null);
-    toggleInput('subsidy', 'subsidy_yes_text', null, null, null, 'subsidy_other_text');
-    toggleInput('register', 'register_yes_text', null, null, null, 'register_other_text');
-    toggleInput('garbage', 'garbage_yes_text', null, null, null, 'garbage_other_text');
-
-    // 其他 radio group 的「其他」欄位顯示
-    const radioFields = [
-      'top', 'parking'
-    ];
-    radioFields.forEach(function(field) {
-      const otherRadio = document.getElementById(`${field}_other_radio`);
-      const otherText = document.getElementById(`${field}_other_text`);
-      if (otherText) otherText.style.display = 'none';
-      document.querySelectorAll(`input[name="${field}"]`).forEach(function(radio) {
-        radio.addEventListener('change', function() {
-          if (otherRadio && otherText) {
-            if (otherRadio.checked) {
-              otherText.style.display = 'inline-block';
-              otherText.focus();
-              adjustInputWidth(otherText);
-            } else {
-              otherText.style.display = 'none';
-              otherText.value = '';
-            }
-          }
+    document.addEventListener('click', function(e){
+      if (!e.target.classList.contains('tip-link')) {
+        document.querySelectorAll('.tooltip.show').forEach(function(tip){
+          tip.classList.remove('show');
         });
-      });
+      }
     });
 
+    // 顯示/隱藏備註欄
+    function toggleRadioInput(radioName, yesId) {
+      document.querySelectorAll(`input[name="${radioName}"]`).forEach(function(radio) {
+        radio.addEventListener('change', function() {
+          if (yesId) document.getElementById(yesId).style.display = (radio.value === "可" || radio.value === "有") && radio.checked ? 'inline-block' : 'none';
+          if (yesId && document.getElementById(yesId).style.display === 'none') document.getElementById(yesId).value = '';
+        });
+      });
+    }
+    toggleRadioInput('tax', 'tax_yes_text');
+    toggleRadioInput('subsidy', 'subsidy_yes_text');
+    toggleRadioInput('register', 'register_yes_text');
+    toggleRadioInput('parking', 'parking_yes_text');
+
+    // 報稅其他複選備註
+    const taxOtherCheckbox = document.getElementById('tax_other_checkbox');
+    const taxOtherText = document.getElementById('tax_other_text');
+    if (taxOtherCheckbox && taxOtherText) {
+      taxOtherCheckbox.addEventListener('change', function() {
+        if (taxOtherCheckbox.checked) {
+          taxOtherText.style.display = 'inline-block';
+          taxOtherText.focus();
+        } else {
+          taxOtherText.style.display = 'none';
+          taxOtherText.value = '';
+        }
+      });
+    }
+    // 租補其他複選備註
+    const subsidyOtherCheckbox = document.getElementById('subsidy_other_checkbox');
+    const subsidyOtherText = document.getElementById('subsidy_other_text');
+    if (subsidyOtherCheckbox && subsidyOtherText) {
+      subsidyOtherCheckbox.addEventListener('change', function() {
+        if (subsidyOtherCheckbox.checked) {
+          subsidyOtherText.style.display = 'inline-block';
+          subsidyOtherText.focus();
+        } else {
+          subsidyOtherText.style.display = 'none';
+          subsidyOtherText.value = '';
+        }
+      });
+    }
+    // 入籍其他複選備註
+    const registerOtherCheckbox = document.getElementById('register_other_checkbox');
+    const registerOtherText = document.getElementById('register_other_text');
+    if (registerOtherCheckbox && registerOtherText) {
+      registerOtherCheckbox.addEventListener('change', function() {
+        if (registerOtherCheckbox.checked) {
+          registerOtherText.style.display = 'inline-block';
+          registerOtherText.focus();
+        } else {
+          registerOtherText.style.display = 'none';
+          registerOtherText.value = '';
+        }
+      });
+    }
     // 寵物複選的其他
     const petOtherCheckbox = document.getElementById('pet_other_checkbox');
     const petOtherText = document.getElementById('pet_other_text');
@@ -295,76 +444,103 @@
       element.style.height = (element.scrollHeight) + "px";
     }
 
-    // 取得 radio 欄位值（含補充說明/其他）
-    function getRadioValue(field, yesId, noId, yes2Id, no2Id, otherId) {
-      const checked = document.querySelector(`input[name="${field}"]:checked`);
-      if (!checked) return '';
-      let result = checked.value;
-      if (field === 'ad') {
-        if (checked.value === '可刊登' && yesId) {
-          const txt = document.getElementById(yesId).value;
-          if (txt) result += `（${txt}）`;
-        }
-        if (checked.value === '不可刊登591可刊登其他平台' && noId) {
-          const txt = document.getElementById(noId).value;
-          if (txt) result += `（${txt}）`;
-        }
-        if (checked.value === '不可刊登' && no2Id) {
-          const txt = document.getElementById(no2Id).value;
-          if (txt) result += `（${txt}）`;
-        }
-      } else if (field === 'sign') {
-        if (checked.value === '可(已簽)' && yesId) {
-          const txt = document.getElementById(yesId).value;
-          if (txt) result += `（${txt}）`;
-        }
-        if (checked.value === '可(可補簽)' && yes2Id) {
-          const txt = document.getElementById(yes2Id).value;
-          if (txt) result += `（${txt}）`;
-        }
-        if (checked.value === '不可(可上架廣告)' && noId) {
-          const txt = document.getElementById(noId).value;
-          if (txt) result += `（${txt}）`;
-        }
-      } else if (field === 'tax') {
-        if (checked.value === '可' && yesId) {
-          const txt = document.getElementById(yesId).value;
-          if (txt) result += `（${txt}）`;
-        }
-      } else if (field === 'subsidy') {
-        if (checked.value === '可' && yesId) {
-          const txt = document.getElementById(yesId).value;
-          if (txt) result += `（${txt}）`;
-        }
-        if (checked.value === '其他' && otherId) {
-          const txt = document.getElementById(otherId).value;
-          if (txt) result = txt ? `其他（${txt}）` : '其他';
-        }
-      } else if (field === 'register') {
-        if (checked.value === '可' && yesId) {
-          const txt = document.getElementById(yesId).value;
-          if (txt) result += `（${txt}）`;
-        }
-        if (checked.value === '其他' && otherId) {
-          const txt = document.getElementById(otherId).value;
-          if (txt) result = txt ? `其他（${txt}）` : '其他';
-        }
-      } else if (field === 'garbage') {
-        if (checked.value === '有' && yesId) {
-          const txt = document.getElementById(yesId).value;
-          if (txt) result += `（${txt}）`;
-        }
-        if (checked.value === '其他' && otherId) {
-          const txt = document.getElementById(otherId).value;
-          if (txt) result = txt ? `其他（${txt}）` : '其他';
-        }
-      } else {
-        if (checked.value === '其他' && otherId) {
-          const txt = document.getElementById(otherId).value;
-          if (txt) result = txt;
+    // 格局產生格式（只顯示有填寫的）
+    function getLayoutValue() {
+      const items = [];
+      const room = document.querySelector('input[name="layout_room"]').value;
+      const living = document.querySelector('input[name="layout_living"]').value;
+      const bath = document.querySelector('input[name="layout_bath"]').value;
+      const kitchen = document.querySelector('input[name="layout_kitchen"]').value;
+      const balcony = document.querySelector('input[name="layout_balcony"]').value;
+      if (room) items.push(`房${room}`);
+      if (living) items.push(`廳${living}`);
+      if (bath) items.push(`衛浴${bath}`);
+      if (kitchen) items.push(`廚房${kitchen}`);
+      if (balcony) items.push(`陽台${balcony}`);
+      let options = [];
+      document.querySelectorAll('input[name="layout_option"]:checked').forEach(function(cb) {
+        options.push(cb.value);
+      });
+      if (options.length) items.push(options.join('、'));
+      return items.join(' ');
+    }
+
+    // 報稅產生格式
+    function getTaxValue() {
+      const checked = document.querySelector('input[name="tax"]:checked');
+      let arr = [];
+      if (checked) {
+        if (checked.value === '可') {
+          const txt = document.getElementById('tax_yes_text').value;
+          arr.push(txt ? `可（${txt}）` : '可');
+        } else {
+          arr.push(checked.value);
         }
       }
-      return result;
+      const taxOther = document.getElementById('tax_other_checkbox');
+      if (taxOther && taxOther.checked) {
+        const txt = document.getElementById('tax_other_text').value;
+        arr.push(txt ? `其他（${txt}）` : '其他');
+      }
+      return arr.join('、');
+    }
+
+    // 租補產生格式
+    function getSubsidyValue() {
+      const checked = document.querySelector('input[name="subsidy"]:checked');
+      let arr = [];
+      if (checked) {
+        if (checked.value === '可') {
+          const txt = document.getElementById('subsidy_yes_text').value;
+          arr.push(txt ? `可（${txt}）` : '可');
+        } else {
+          arr.push(checked.value);
+        }
+      }
+      const subsidyOther = document.getElementById('subsidy_other_checkbox');
+      if (subsidyOther && subsidyOther.checked) {
+        const txt = document.getElementById('subsidy_other_text').value;
+        arr.push(txt ? `其他（${txt}）` : '其他');
+      }
+      return arr.join('、');
+    }
+
+    // 入籍產生格式
+    function getRegisterValue() {
+      const checked = document.querySelector('input[name="register"]:checked');
+      let arr = [];
+      if (checked) {
+        if (checked.value === '可') {
+          const txt = document.getElementById('register_yes_text').value;
+          arr.push(txt ? `可（${txt}）` : '可');
+        } else {
+          arr.push(checked.value);
+        }
+      }
+      const registerOther = document.getElementById('register_other_checkbox');
+      if (registerOther && registerOther.checked) {
+        const txt = document.getElementById('register_other_text').value;
+        arr.push(txt ? `其他（${txt}）` : '其他');
+      }
+      return arr.join('、');
+    }
+
+    // 停車位產生格式
+    function getParkingValue() {
+      const checked = document.querySelector('input[name="parking"]:checked');
+      let arr = [];
+      if (checked) {
+        if (checked.value === '有') {
+          const txt = document.getElementById('parking_yes_text').value;
+          arr.push(txt ? `有（${txt}）` : '有');
+        } else {
+          arr.push(checked.value);
+        }
+      }
+      document.querySelectorAll('input[name="parking_other"]:checked').forEach(function(cb) {
+        arr.push(cb.value);
+      });
+      return arr.join('、');
     }
 
     // 取得寵物複選值
@@ -382,52 +558,35 @@
       return arr.join('、');
     }
 
-    // 取得格局
-    function getLayoutValue() {
-      const room = document.querySelector('input[name="layout_room"]').value || '0';
-      const living = document.querySelector('input[name="layout_living"]').value || '0';
-      const bath = document.querySelector('input[name="layout_bath"]').value || '0';
-      const kitchen = document.querySelector('input[name="layout_kitchen"]').value || '0';
-      const balcony = document.querySelector('input[name="layout_balcony"]').value || '0';
-      let layout = `房${room} 廳${living} 衛浴${bath} 廚房${kitchen} 陽台${balcony}`;
-      let options = [];
-      document.querySelectorAll('input[name="layout_option"]:checked').forEach(function(cb) {
-        options.push(cb.value);
-      });
-      if (options.length) layout += ' ' + options.join('、');
-      return layout;
-    }
-
     // 產生格式內容
     function generate() {
-      const form = document.getElementById('houseForm');
-      const data = new FormData(form);
+      const data = new FormData(document.getElementById('houseForm'));
       let output =
-        `日期：${data.get('date')}\n\n` +
-        `可否廣告：${getRadioValue('ad', 'ad_yes_text', 'ad_no_text', null, 'ad_no2_text')}\n\n` +
-        `可否簽委托書：${getRadioValue('sign', 'sign_yes_text', 'sign_no_text', 'sign_yes2_text')}\n\n` +
-        `地址(詳細地址及樓層如為頂加特別註記):${data.get('address')}\n\n` +
-        `頂加是否為民國84年前增建如果是頂加需詢問房東是否為84年前增建，不是的話會有被拆除的風險 :${getRadioValue('top')}\n\n` +
-        `房號 如為分套/雅房（會有房號、或大門到房間門的路徑怎麼走）方便後續行銷人員帶看 :${data.get('room')}\n\n` +
-        `總樓層 所在樓層/總樓層數 :${data.get('floor')}\n\n` +
-        `建物型態 前面為房間型態（分套、獨套、雅房）/後面為大樓的型態（公寓、電梯大樓、透天厝）:${data.get('type')}\n\n` +
-        `坪數 房內坪數（如為獨立套房/整層需調閱謄本） 頂加不用調:${data.get('area')}\n\n` +
-        `格局: ${getLayoutValue()}\n\n` +
+        `日期：${data.get('date')} 今日物件：${data.get('today_obj')}\n\n` +
+        `可否廣告：${data.get('ad')}\n\n` +
+        `可否簽委托書：${data.get('sign')}\n\n` +
+        `地址：${data.get('address')}\n\n` +
+        `頂加是否為民國84年前增建：${data.get('top')}\n\n` +
+        `房號：${data.get('room')}${data.get('room_none') ? '（無）' : ''}\n\n` +
+        `總樓層：${data.get('floor')}\n\n` +
+        `建物型態：${data.get('type')}\n\n` +
+        `坪數：${data.get('area')}\n\n` +
+        `格局：${getLayoutValue()}\n\n` +
         `租金：${data.get('rent')}\n\n` +
-        `管理費 有無管理費用（若有請註記包含哪些費用ex:水費、瓦斯費、第四台費用、網路費用、垃圾代收) :${data.get('fee')}\n\n` +
+        `管理費：${data.get('fee')}${data.get('fee_none') ? '（無）' : ''}\n\n` +
         `底價：${data.get('base')}\n\n` +
-        `報稅 (可否讓租客申請報稅/公證) :${getRadioValue('tax', 'tax_yes_text')}\n\n` +
-        `租補：${getRadioValue('subsidy', 'subsidy_yes_text', null, null, null, 'subsidy_other_text')}\n\n` +
-        `入籍：${getRadioValue('register', 'register_yes_text', null, null, null, 'register_other_text')}\n\n` +
+        `報稅：${getTaxValue()}\n\n` +
+        `租補：${getSubsidyValue()}\n\n` +
+        `入籍：${getRegisterValue()}\n\n` +
         `寵物：${getPetValue()}\n\n` +
-        `垃圾代收有無垃圾袋收，有的話是否需要專用垃圾袋：${getRadioValue('garbage', 'garbage_yes_text', null, null, null, 'garbage_other_text')}\n\n` +
-        `停車位：${getRadioValue('parking', null, null, null, null, 'parking_other_text')}\n\n` +
+        `垃圾代收：${data.get('garbage')}\n\n` +
+        `停車位：${getParkingValue()}\n\n` +
         `公設：${data.get('public')}\n\n` +
         `電費$/度：${data.get('electric')}\n\n` +
         `水費：${data.get('water')}\n\n` +
-        `瓦斯 有無瓦斯爐（是否能開火、還是不能用明火，可用電磁爐，請另外標註天然瓦斯或是瓦斯桶，瓦斯桶不可勾天然瓦斯) :${data.get('gas')}\n\n` +
+        `瓦斯：${data.get('gas')}\n\n` +
         `鄰近交通(站點/分鐘)：${data.get('traffic')}\n\n` +
-        `帶看方式 房東貴姓、聯絡電話（註記清楚方便後續行銷人員帶看）：${data.get('show')}\n\n` +
+        `帶看方式：${data.get('show')}\n\n` +
         `附加設備：${data.get('equip')}\n\n` +
         `注意事項(生活機能、東服等補充)：${data.get('note')}\n\n` +
         `開發：${data.get('dev')}`;
@@ -442,6 +601,16 @@
       document.execCommand('copy');
       alert('已複製到剪貼簿！');
     }
+
+    // 自動產生民國日期
+    function getTaiwanDate() {
+      const today = new Date();
+      const year = today.getFullYear() - 1911;
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      return `${year}/${month}/${day}`;
+    }
+    document.getElementById('date').value = getTaiwanDate();
   </script>
 </body>
 </html>
