@@ -10,6 +10,9 @@
     input[type="text"], select, textarea { box-sizing: border-box; }
     input[type="radio"], input[type="checkbox"] { width: auto; margin-right: 4px; vertical-align: middle; }
     .radio-group label, .checkbox-group label { margin-right: 16px; font-weight: normal; display: inline-block; }
+    .radio-inline { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+    .radio-inline label { margin-right: 8px; white-space: nowrap; }
+    .radio-inline input[type="text"] { margin-left: 4px; }
     .radio-group input[type="text"], .checkbox-group input[type="text"] {
       min-width: 120px;
       width: auto;
@@ -92,7 +95,7 @@
     </div>
     <!-- 可否廣告 -->
     <label>可否廣告：
-      <span class="radio-group">
+      <span class="radio-inline">
         <label><input type="radio" name="ad" value="可刊登">可刊登</label>
         <input type="text" id="ad_yes_text" name="ad_yes_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
         <label><input type="radio" name="ad" value="不可刊登591可刊登其他平台">不可刊登591可刊登其他平台</label>
@@ -103,7 +106,7 @@
     </label>
     <!-- 可否簽委托書 -->
     <label>可否簽委托書：
-      <span class="radio-group">
+      <span class="radio-inline">
         <label><input type="radio" name="sign" value="可(已簽)">可(已簽)</label>
         <label><input type="radio" name="sign" value="可(可補簽)">可(可補簽)</label>
         <label><input type="radio" name="sign" value="不可(可上架廣告)">不可(可上架廣告)</label>
@@ -128,7 +131,7 @@
         <span class="tip-content">如果是頂加需詢問房東是否為84年前增建，不是的話會有被拆除的風險</span>
       </span>
       ：
-      <span class="radio-group">
+      <span class="radio-inline">
         <label><input type="radio" name="top" value="是">是</label>
         <label><input type="radio" name="top" value="否">否</label>
       </span>
@@ -213,7 +216,7 @@
         <span class="tip-content">(可否讓租客申請報稅/公證)</span>
       </span>
       ：
-      <span class="radio-group">
+      <span class="radio-inline">
         <label><input type="radio" name="tax" value="可" id="tax_yes_radio">可</label>
         <input type="text" id="tax_yes_text" name="tax_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
         <label><input type="radio" name="tax" value="不可">不可</label>
@@ -225,7 +228,7 @@
     </label>
     <!-- 租補 -->
     <label>租補：
-      <span class="radio-group">
+      <span class="radio-inline">
         <label><input type="radio" name="subsidy" value="可" id="subsidy_yes_radio">可</label>
         <input type="text" id="subsidy_yes_text" name="subsidy_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
         <label><input type="radio" name="subsidy" value="不可">不可</label>
@@ -237,7 +240,7 @@
     </label>
     <!-- 入籍 -->
     <label>入籍：
-      <span class="radio-group">
+      <span class="radio-inline">
         <label><input type="radio" name="register" value="可" id="register_yes_radio">可</label>
         <input type="text" id="register_yes_text" name="register_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
         <label><input type="radio" name="register" value="不可">不可</label>
@@ -275,7 +278,7 @@
         <span class="tip-content">有沒有停車位（在哪、停車位形式、計費方式皆需問清楚）讓行銷人員好介紹機械 平面 高度寬度</span>
       </span>
       ：
-      <span class="radio-group">
+      <span class="radio-inline">
         <label><input type="radio" name="parking" value="有" id="parking_yes_radio">有</label>
         <input type="text" id="parking_yes_text" name="parking_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
         <label><input type="radio" name="parking" value="無">無</label>
