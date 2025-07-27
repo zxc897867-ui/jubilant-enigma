@@ -23,6 +23,69 @@
     .tip-link { color: #1976d2; text-decoration: underline; cursor: pointer; font-size: 15px; }
     .tip-content { display: none; position: absolute; left: 0; top: 24px; background: #222; color: #fff; padding: 10px 14px; border-radius: 6px; font-size: 15px; z-index: 99; min-width: 220px; max-width: 80vw; box-shadow: 0 2px 8px rgba(0,0,0,0.2); word-break: break-all; }
     .tooltip.show .tip-content { display: block; }
+    
+    /* 手機優化：選項按鈕保持在同一排 */
+    .radio-group {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 12px;
+      align-items: center;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      margin: 8px 0;
+    }
+    
+    .radio-group span {
+      font-weight: normal;
+      margin-right: 0;
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+    
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      margin: 0;
+      flex: 0 0 auto;
+      font-size: 16px;
+    }
+    
+    .radio-group input[type="radio"] {
+      margin-right: 6px;
+      margin-left: 0;
+      transform: scale(1.1);
+    }
+    
+    /* 針對手機螢幕進一步優化 */
+    @media (max-width: 480px) {
+      .radio-group label {
+        font-size: 15px;
+      }
+      
+      .radio-group {
+        gap: 10px;
+      }
+      
+      body {
+        margin: 15px;
+      }
+    }
+    
+    /* 非常小的螢幕優化 */
+    @media (max-width: 360px) {
+      .radio-group label {
+        font-size: 14px;
+      }
+      
+      .radio-group span {
+        font-size: 14px;
+      }
+      
+      .radio-group {
+        gap: 8px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -35,55 +98,72 @@
       <span style="margin-right:4px;">今日物件</span>
       <input name="today_obj" id="today_obj" placeholder="可填寫" style="width:300px;max-width:90vw;">
     </div>
+    
     <!-- 可否廣告 -->
-    <label>可否廣告：
-      <input type="radio" name="ad" value="可刊登">可刊登
-      <input type="radio" name="ad" value="不可刊登591可刊登其他平台">不可刊登591可刊登其他平台
-      <input type="radio" name="ad" value="不可刊登">不可刊登
-    </label>
+    <div class="radio-group">
+      <span>可否廣告：</span>
+      <label><input type="radio" name="ad" value="可刊登">可刊登</label>
+      <label><input type="radio" name="ad" value="不可刊登591可刊登其他平台">不可刊登591可刊登其他平台</label>
+      <label><input type="radio" name="ad" value="不可刊登">不可刊登</label>
+    </div>
+    
     <!-- 可否簽委托書 -->
-    <label>可否簽委托書：
-      <input type="radio" name="sign" value="可(已簽)">可(已簽)
-      <input type="radio" name="sign" value="可(可補簽)">可(可補簽)
-      <input type="radio" name="sign" value="不可(可上架廣告)">不可(可上架廣告)
-      <input type="radio" name="sign" value="不可">不可
-    </label>
+    <div class="radio-group">
+      <span>可否簽委托書：</span>
+      <label><input type="radio" name="sign" value="可(已簽)">可(已簽)</label>
+      <label><input type="radio" name="sign" value="可(可補簽)">可(可補簽)</label>
+      <label><input type="radio" name="sign" value="不可(可上架廣告)">不可(可上架廣告)</label>
+      <label><input type="radio" name="sign" value="不可">不可</label>
+    </div>
+    
     <!-- 頂加是否為民國84年前增建 -->
-    <label>頂加是否為民國84年前增建：
-      <input type="radio" name="top" value="是">是
-      <input type="radio" name="top" value="否">否
-    </label>
+    <div class="radio-group">
+      <span>頂加是否為民國84年前增建：</span>
+      <label><input type="radio" name="top" value="是">是</label>
+      <label><input type="radio" name="top" value="否">否</label>
+    </div>
+    
     <!-- 報稅 -->
-    <label>報稅：
-      <input type="radio" name="tax" value="可">可
-      <input type="radio" name="tax" value="否">否
-    </label>
+    <div class="radio-group">
+      <span>報稅：</span>
+      <label><input type="radio" name="tax" value="可">可</label>
+      <label><input type="radio" name="tax" value="否">否</label>
+    </div>
+    
     <!-- 租補 -->
-    <label>租補：
-      <input type="radio" name="subsidy" value="可">可
-      <input type="radio" name="subsidy" value="否">否
-      <input type="radio" name="subsidy" value="其他">其他
-    </label>
+    <div class="radio-group">
+      <span>租補：</span>
+      <label><input type="radio" name="subsidy" value="可">可</label>
+      <label><input type="radio" name="subsidy" value="否">否</label>
+      <label><input type="radio" name="subsidy" value="其他">其他</label>
+    </div>
+    
     <!-- 入籍 -->
-    <label>入籍：
-      <input type="radio" name="register" value="可">可
-      <input type="radio" name="register" value="否">否
-      <input type="radio" name="register" value="其他">其他
-    </label>
+    <div class="radio-group">
+      <span>入籍：</span>
+      <label><input type="radio" name="register" value="可">可</label>
+      <label><input type="radio" name="register" value="否">否</label>
+      <label><input type="radio" name="register" value="其他">其他</label>
+    </div>
+    
     <!-- 寵物 -->
-    <label>寵物：
-      <input type="radio" name="pet" value="否">否
-      <input type="radio" name="pet" value="可">可
-      <input type="radio" name="pet" value="可貓">可貓
-      <input type="radio" name="pet" value="可狗">可狗
-      <input type="radio" name="pet" value="其他">其他
-    </label>
+    <div class="radio-group">
+      <span>寵物：</span>
+      <label><input type="radio" name="pet" value="否">否</label>
+      <label><input type="radio" name="pet" value="可">可</label>
+      <label><input type="radio" name="pet" value="可貓">可貓</label>
+      <label><input type="radio" name="pet" value="可狗">可狗</label>
+      <label><input type="radio" name="pet" value="其他">其他</label>
+    </div>
+    
     <!-- 停車位 -->
-    <label>停車位：
-      <input type="radio" name="parking" value="有">有
-      <input type="radio" name="parking" value="無">無
-      <input type="radio" name="parking" value="其他">其他
-    </label>
+    <div class="radio-group">
+      <span>停車位：</span>
+      <label><input type="radio" name="parking" value="有">有</label>
+      <label><input type="radio" name="parking" value="無">無</label>
+      <label><input type="radio" name="parking" value="其他">其他</label>
+    </div>
+    
     <!-- 其餘欄位同你原本的表單 -->
     <label>
       地址
