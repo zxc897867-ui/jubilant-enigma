@@ -12,20 +12,17 @@
     input[type="radio"], input[type="checkbox"] { margin-right: 4px; margin-left: 0; vertical-align: middle; }
     .auto-grow { min-width: 120px; width: auto; max-width: 60vw; transition: width 0.2s; }
     .square-textarea { width: 200px; height: 200px; resize: both; font-size: 16px; box-sizing: border-box; display: block; }
-    .small-input { width: 30px; text-align: center; font-size: 16px; }
+    .small-input { width: 20px; text-align: center; font-size: 16px; }
     input[type="radio"]:checked, input[type="checkbox"]:checked { accent-color: orange; }
     textarea { margin-top: 10px; width: 100%; font-size: 18px; }
     button { margin: 10px 5px 0 0; padding: 8px 16px; }
-    .row { display: flex; align-items: center; margin-bottom: 8px; }
-    .row label { margin: 0 8px 0 0; min-width: 90px; font-weight: bold; display: inline-block; }
+    .row { display: flex; align-items: flex-start; margin-bottom: 8px; flex-wrap: wrap; }
+    .row label { margin: 0 4px 0 0; font-weight: bold; display: inline-block; white-space: nowrap; }
     .inline-options {
       display: flex;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
       gap: 8px 16px;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: 2px;
-      scrollbar-width: thin;
+      align-items: center;
     }
     .inline-options label {
       display: flex;
@@ -37,6 +34,19 @@
     }
     .inline-options input[type="radio"] {
       margin-right: 4px;
+    }
+    /* 針對手機優化的媒體查詢 */
+    @media (max-width: 768px) {
+      .row label {
+        min-width: auto;
+        margin-right: 2px;
+      }
+      .inline-options {
+        gap: 6px 12px;
+      }
+      .inline-options label {
+        font-size: 14px;
+      }
     }
     #date { width: 140px; max-width: 40vw; height: 36px; border-radius: 4px; font-size: 16px; padding: 4px 8px; margin-right: 10px; }
     #today_obj { width: 300px; max-width: 90vw; height: 36px; border-radius: 4px; font-size: 16px; padding: 4px 8px; }
@@ -62,7 +72,7 @@
     <div class="row">
       <label style="min-width:50px;margin-right:4px;">日期</label>
       <input name="date" id="date" class="auto-grow" readonly>
-      <span style="margin-right:4px;">今日物件</span>
+      <label style="margin-right:4px;">今日物件</label>
       <input name="today_obj" id="today_obj" placeholder="可填寫" style="width:300px;max-width:90vw;">
     </div>
     <!-- 可否廣告 -->
