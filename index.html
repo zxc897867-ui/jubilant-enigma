@@ -17,9 +17,27 @@
     textarea { margin-top: 10px; width: 100%; font-size: 18px; }
     button { margin: 10px 5px 0 0; padding: 8px 16px; }
     .row { display: flex; align-items: center; margin-bottom: 8px; }
-    .row label { margin: 0 8px 0 0; min-width: 60px; font-weight: bold; display: inline-block; }
-    .inline-options label { display: inline-block; margin-right: 18px; font-weight: normal; }
-    .inline-options input[type="radio"] { margin-right: 4px; }
+    .row label { margin: 0 8px 0 0; min-width: 90px; font-weight: bold; display: inline-block; }
+    .inline-options {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 8px 16px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 2px;
+      scrollbar-width: thin;
+    }
+    .inline-options label {
+      display: flex;
+      align-items: center;
+      margin-right: 0;
+      font-weight: normal;
+      white-space: nowrap;
+      font-size: 16px;
+    }
+    .inline-options input[type="radio"] {
+      margin-right: 4px;
+    }
     #date { width: 140px; max-width: 40vw; height: 36px; border-radius: 4px; font-size: 16px; padding: 4px 8px; margin-right: 10px; }
     #today_obj { width: 300px; max-width: 90vw; height: 36px; border-radius: 4px; font-size: 16px; padding: 4px 8px; }
     .ocr-section {
@@ -48,18 +66,24 @@
       <input name="today_obj" id="today_obj" placeholder="可填寫" style="width:300px;max-width:90vw;">
     </div>
     <!-- 可否廣告 -->
-    <label>可否廣告：
-      <input type="radio" name="ad" value="可刊登">可刊登
-      <input type="radio" name="ad" value="不可刊登591可刊登其他平台">不可刊登591可刊登其他平台
-      <input type="radio" name="ad" value="不可刊登">不可刊登
-    </label>
+    <div class="row">
+      <label>可否廣告：</label>
+      <div class="inline-options">
+        <label><input type="radio" name="ad" value="可刊登">可刊登</label>
+        <label><input type="radio" name="ad" value="不可刊登591可刊登其他平台">不可刊登591可刊登其他平台</label>
+        <label><input type="radio" name="ad" value="不可刊登">不可刊登</label>
+      </div>
+    </div>
     <!-- 可否簽委托書 -->
-    <label>可否簽委托書：
-      <input type="radio" name="sign" value="可(已簽)">可(已簽)
-      <input type="radio" name="sign" value="可(可補簽)">可(可補簽)
-      <input type="radio" name="sign" value="不可(可上架廣告)">不可(可上架廣告)
-      <input type="radio" name="sign" value="不可">不可
-    </label>
+    <div class="row">
+      <label>可否簽委托書：</label>
+      <div class="inline-options">
+        <label><input type="radio" name="sign" value="可(已簽)">可(已簽)</label>
+        <label><input type="radio" name="sign" value="可(可補簽)">可(可補簽)</label>
+        <label><input type="radio" name="sign" value="不可(可上架廣告)">不可(可上架廣告)</label>
+        <label><input type="radio" name="sign" value="不可">不可</label>
+      </div>
+    </div>
     <!-- 地址 -->
     <label>地址：<input name="address" class="auto-grow" required></label>
     <!-- 頂加是否為民國84年前增建 -->
