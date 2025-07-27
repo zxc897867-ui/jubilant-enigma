@@ -3,15 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title>房屋資訊自動生成器</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <style>
     body { font-family: "微軟正黑體", Arial, sans-serif; margin: 30px; }
     label { display: block; margin: 8px 0 2px; }
-    input[type="text"], select, textarea { box-sizing: border-box; }
+    input[type="text"], select, textarea { 
+      box-sizing: border-box; 
+      font-size: 16px; /* 防止手機放大 */
+    }
     input[type="radio"], input[type="checkbox"] { width: auto; margin-right: 4px; vertical-align: middle; }
     .auto-grow { min-width: 120px; width: auto; max-width: 60vw; transition: width 0.2s; }
     .square-textarea { width: 200px; height: 200px; resize: both; font-size: 16px; box-sizing: border-box; display: block; }
-    .small-input { width: 30px; text-align: center; }
+    .small-input { 
+      width: 30px; 
+      text-align: center; 
+      font-size: 16px; /* 防止手機放大 */
+    }
     input[type="radio"]:checked, input[type="checkbox"]:checked { accent-color: orange; }
     textarea { margin-top: 10px; width: 100%; font-size: 18px; }
     button { margin: 10px 5px 0 0; padding: 8px 16px; }
