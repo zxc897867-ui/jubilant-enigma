@@ -5,11 +5,31 @@
   <title>房屋資訊自動生成器</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-    body { font-family: "微軟正黑體", Arial, sans-serif; margin: 30px; }
-    label { display: block; margin: 8px 0 2px; }
-    input[type="text"], select, textarea { box-sizing: border-box; }
-    input[type="radio"], input[type="checkbox"] { width: auto; margin-right: 4px; vertical-align: middle; }
-    .inline-scroll {
+    body {
+      font-family: "微軟正黑體", Arial, sans-serif;
+      margin: 10px;
+      font-size: 15px;
+      max-width: 480px;
+      background: #fff;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    label, .row label { font-size: 15px; }
+    input[type="text"], select, textarea, #date, #today_obj {
+      font-size: 15px;
+      height: 32px;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    input[type="radio"], input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      margin-right: 2px;
+      vertical-align: middle;
+    }
+    .inline-scroll, .row, .option-inline {
+      font-size: 15px;
+      gap: 4px;
       display: block;
       overflow-x: auto;
       white-space: nowrap;
@@ -17,40 +37,41 @@
       width: 100%;
       padding-bottom: 2px;
     }
-    .inline-scroll label, .inline-scroll input[type="radio"], .inline-scroll input[type="checkbox"], .inline-scroll input[type="text"] {
+    .inline-scroll label, .inline-scroll input[type="radio"], .inline-scroll input[type="checkbox"], .inline-scroll input[type="text"],
+    .option-inline label, .option-inline input[type="radio"], .option-inline input[type="checkbox"], .option-inline input[type="text"] {
       display: inline-block;
       white-space: nowrap;
       margin-right: 8px;
       vertical-align: middle;
     }
     .auto-grow {
-      min-width: 120px;
+      min-width: 80px;
       width: auto;
       max-width: 60vw;
       transition: width 0.2s;
+      font-size: 15px;
     }
     .square-textarea {
-      width: 200px;
-      height: 200px;
+      width: 140px;
+      height: 100px;
+      font-size: 15px;
       resize: both;
-      font-size: 16px;
       box-sizing: border-box;
       display: block;
     }
-    .small-input { width: 30px; text-align: center; }
-    input[type="radio"]:checked, input[type="checkbox"]:checked { accent-color: orange; }
-    textarea { margin-top: 10px; width: 100%; font-size: 18px; }
-    button { margin: 10px 5px 0 0; padding: 8px 16px; }
+    .small-input { width: 24px; text-align: center; font-size: 15px; }
+    textarea { margin-top: 10px; width: 100%; font-size: 15px; }
+    button { font-size: 15px; padding: 6px 12px; }
     .row { display: flex; gap: 0; align-items: center; }
     .row label, .row input { flex: unset; }
     #date, #today_obj {
-      width: 140px;
+      width: 110px;
       max-width: 40vw;
-      height: 36px;
+      height: 32px;
       border-radius: 4px;
-      font-size: 16px;
-      padding: 4px 8px;
-      margin-right: 10px;
+      font-size: 15px;
+      padding: 2px 6px;
+      margin-right: 6px;
     }
     .tooltip {
       position: relative;
@@ -69,11 +90,11 @@
       top: 24px;
       background: #222;
       color: #fff;
-      padding: 10px 14px;
+      padding: 8px 10px;
       border-radius: 6px;
-      font-size: 15px;
+      font-size: 14px;
       z-index: 99;
-      min-width: 220px;
+      min-width: 180px;
       max-width: 80vw;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
       word-break: break-all;
@@ -84,11 +105,11 @@
   </style>
 </head>
 <body>
-  <h2>房屋資訊自動生成器</h2>
+  <h2 style="font-size:20px;">房屋資訊自動生成器</h2>
   <form id="houseForm" autocomplete="off">
     <!-- 日期 + 今日物件 -->
     <div class="row">
-      <label style="min-width:50px;margin-right:4px;">日期</label>
+      <label style="min-width:40px;margin-right:4px;">日期</label>
       <input name="date" id="date" readonly>
       <span style="margin-right:4px;">今日物件</span>
       <input name="today_obj" id="today_obj" class="auto-grow" placeholder="可填寫">
@@ -97,11 +118,11 @@
     <label>可否廣告：
       <div class="inline-scroll">
         <input type="radio" name="ad" value="可刊登">可刊登
-        <input type="text" id="ad_yes_text" name="ad_yes_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
+        <input type="text" id="ad_yes_text" name="ad_yes_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="6">
         <input type="radio" name="ad" value="不可刊登591可刊登其他平台">不可刊登591可刊登其他平台
-        <input type="text" id="ad_no_text" name="ad_no_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
+        <input type="text" id="ad_no_text" name="ad_no_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="6">
         <input type="radio" name="ad" value="不可刊登">不可刊登
-        <input type="text" id="ad_no2_text" name="ad_no2_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
+        <input type="text" id="ad_no2_text" name="ad_no2_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="6">
       </div>
     </label>
     <!-- 可否簽委托書 -->
@@ -111,7 +132,7 @@
         <input type="radio" name="sign" value="可(可補簽)">可(可補簽)
         <input type="radio" name="sign" value="不可(可上架廣告)">不可(可上架廣告)
         <input type="radio" name="sign" value="不可" id="sign_no_radio">不可
-        <input type="text" id="sign_no_text" name="sign_no_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+        <input type="text" id="sign_no_text" name="sign_no_text" class="auto-grow" placeholder="備註" style="display:none;" size="6">
       </div>
     </label>
     <!-- 頂加是否為民國84年前增建 -->
@@ -206,30 +227,30 @@
       ：
       <div class="inline-scroll">
         <input type="radio" name="tax" value="可" id="tax_yes_radio">可
-        <input type="text" id="tax_yes_text" name="tax_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+        <input type="text" id="tax_yes_text" name="tax_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="6">
         <input type="radio" name="tax" value="不可">不可
         <input type="checkbox" name="tax_other" value="其他" id="tax_other_checkbox">其他
-        <input type="text" id="tax_other_text" name="tax_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+        <input type="text" id="tax_other_text" name="tax_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="6">
       </div>
     </label>
     <!-- 租補 -->
     <label>租補：
       <div class="inline-scroll">
         <input type="radio" name="subsidy" value="可" id="subsidy_yes_radio">可
-        <input type="text" id="subsidy_yes_text" name="subsidy_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+        <input type="text" id="subsidy_yes_text" name="subsidy_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="6">
         <input type="radio" name="subsidy" value="不可">不可
         <input type="checkbox" name="subsidy_other" value="其他" id="subsidy_other_checkbox">其他
-        <input type="text" id="subsidy_other_text" name="subsidy_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+        <input type="text" id="subsidy_other_text" name="subsidy_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="6">
       </div>
     </label>
     <!-- 入籍 -->
     <label>入籍：
       <div class="inline-scroll">
         <input type="radio" name="register" value="可" id="register_yes_radio">可
-        <input type="text" id="register_yes_text" name="register_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+        <input type="text" id="register_yes_text" name="register_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="6">
         <input type="radio" name="register" value="不可">不可
         <input type="checkbox" name="register_other" value="其他" id="register_other_checkbox">其他
-        <input type="text" id="register_other_text" name="register_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+        <input type="text" id="register_other_text" name="register_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="6">
       </div>
     </label>
     <!-- 寵物 -->
@@ -240,7 +261,7 @@
         <input type="checkbox" name="pet" value="可貓">可貓
         <input type="checkbox" name="pet" value="可狗">可狗
         <input type="checkbox" name="pet" value="其他" id="pet_other_checkbox">其他
-        <input type="text" id="pet_other_text" name="pet_other" placeholder="請輸入其他內容" style="display:none;" size="8">
+        <input type="text" id="pet_other_text" name="pet_other" placeholder="請輸入其他內容" style="display:none;" size="6">
       </div>
     </label>
     <!-- 垃圾代收加說明 -->
@@ -262,7 +283,7 @@
       ：
       <div class="inline-scroll">
         <input type="radio" name="parking" value="有" id="parking_yes_radio">有
-        <input type="text" id="parking_yes_text" name="parking_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+        <input type="text" id="parking_yes_text" name="parking_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="6">
         <input type="radio" name="parking" value="無">無
         <input type="checkbox" name="parking_other" value="機械">機械
         <input type="checkbox" name="parking_other" value="平面">平面
@@ -344,7 +365,7 @@
         document.body.appendChild(span);
       }
       span.textContent = input.value || input.placeholder || '';
-      input.style.width = Math.max(120, span.offsetWidth + 20) + 'px';
+      input.style.width = Math.max(80, span.offsetWidth + 20) + 'px';
     }
     document.querySelectorAll('.auto-grow').forEach(function(input) {
       input.addEventListener('input', function() {
