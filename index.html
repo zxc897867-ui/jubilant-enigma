@@ -31,8 +31,11 @@
       gap: 12px;
       align-items: center;
       overflow-x: auto;
+      overflow-y: visible;
       padding-bottom: 2px;
       margin: 8px 0;
+      width: 100%;
+      box-sizing: border-box;
     }
     
     .radio-group span {
@@ -49,12 +52,33 @@
       margin: 0;
       flex: 0 0 auto;
       font-size: 16px;
+      min-width: fit-content;
     }
     
     .radio-group input[type="radio"] {
       margin-right: 6px;
       margin-left: 0;
       transform: scale(1.1);
+      flex-shrink: 0;
+    }
+    
+    /* 確保內容不被截斷 */
+    .radio-group::-webkit-scrollbar {
+      height: 6px;
+    }
+    
+    .radio-group::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 3px;
+    }
+    
+    .radio-group::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 3px;
+    }
+    
+    .radio-group::-webkit-scrollbar-thumb:hover {
+      background: #a8a8a8;
     }
     
     /* 針對手機螢幕進一步優化 */
@@ -69,6 +93,10 @@
       
       body {
         margin: 15px;
+      }
+      
+      .radio-group span {
+        font-size: 15px;
       }
     }
     
