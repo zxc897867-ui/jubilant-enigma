@@ -9,6 +9,20 @@
     label { display: block; margin: 8px 0 2px; }
     input[type="text"], select, textarea { box-sizing: border-box; }
     input[type="radio"], input[type="checkbox"] { width: auto; margin-right: 4px; vertical-align: middle; }
+    .inline-scroll {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      width: 100%;
+      padding-bottom: 2px;
+    }
+    .inline-scroll label, .inline-scroll input[type="radio"], .inline-scroll input[type="checkbox"], .inline-scroll input[type="text"] {
+      display: inline-block;
+      white-space: nowrap;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
     .auto-grow {
       min-width: 120px;
       width: auto;
@@ -81,29 +95,24 @@
     </div>
     <!-- 可否廣告 -->
     <label>可否廣告：
-      <input type="radio" name="ad" value="可刊登">可刊登
-      <input type="text" id="ad_yes_text" name="ad_yes_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
-      <input type="radio" name="ad" value="不可刊登591可刊登其他平台">不可刊登591可刊登其他平台
-      <input type="text" id="ad_no_text" name="ad_no_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
-      <input type="radio" name="ad" value="不可刊登">不可刊登
-      <input type="text" id="ad_no2_text" name="ad_no2_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
+      <div class="inline-scroll">
+        <input type="radio" name="ad" value="可刊登">可刊登
+        <input type="text" id="ad_yes_text" name="ad_yes_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
+        <input type="radio" name="ad" value="不可刊登591可刊登其他平台">不可刊登591可刊登其他平台
+        <input type="text" id="ad_no_text" name="ad_no_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
+        <input type="radio" name="ad" value="不可刊登">不可刊登
+        <input type="text" id="ad_no2_text" name="ad_no2_text" class="auto-grow" placeholder="補充說明" style="display:none;" size="8">
+      </div>
     </label>
     <!-- 可否簽委托書 -->
     <label>可否簽委托書：
-      <input type="radio" name="sign" value="可(已簽)">可(已簽)
-      <input type="radio" name="sign" value="可(可補簽)">可(可補簽)
-      <input type="radio" name="sign" value="不可(可上架廣告)">不可(可上架廣告)
-      <input type="radio" name="sign" value="不可" id="sign_no_radio">不可
-      <input type="text" id="sign_no_text" name="sign_no_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
-    </label>
-    <!-- 地址加說明 -->
-    <label>
-      地址
-      <span class="tooltip">
-        <a href="javascript:void(0);" class="tip-link" onclick="showTip(this)">說明</a>
-        <span class="tip-content">詳細地址及樓層如為頂加特別註記</span>
-      </span>
-      ：<input name="address" class="auto-grow" required>
+      <div class="inline-scroll">
+        <input type="radio" name="sign" value="可(已簽)">可(已簽)
+        <input type="radio" name="sign" value="可(可補簽)">可(可補簽)
+        <input type="radio" name="sign" value="不可(可上架廣告)">不可(可上架廣告)
+        <input type="radio" name="sign" value="不可" id="sign_no_radio">不可
+        <input type="text" id="sign_no_text" name="sign_no_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+      </div>
     </label>
     <!-- 頂加是否為民國84年前增建 -->
     <label>
@@ -113,8 +122,10 @@
         <span class="tip-content">如果是頂加需詢問房東是否為84年前增建，不是的話會有被拆除的風險</span>
       </span>
       ：
-      <input type="radio" name="top" value="是">是
-      <input type="radio" name="top" value="否">否
+      <div class="inline-scroll">
+        <input type="radio" name="top" value="是">是
+        <input type="radio" name="top" value="否">否
+      </div>
     </label>
     <!-- 房號加說明，無選項在空白格後方 -->
     <label>
@@ -161,18 +172,15 @@
         <span class="tip-content">請依現況格局如實填寫，若未如實填寫，後續若致生爭議，須自行負責！</span>
       </span>
       ：
-      <input type="text" name="layout_room" class="small-input" maxlength="2" placeholder="房">
-      房
-      <input type="text" name="layout_living" class="small-input" maxlength="2" placeholder="廳">
-      廳
-      <input type="text" name="layout_bath" class="small-input" maxlength="2" placeholder="衛浴">
-      衛浴
-      <input type="text" name="layout_kitchen" class="small-input" maxlength="2" placeholder="廚房">
-      廚房
-      <input type="text" name="layout_balcony" class="small-input" maxlength="2" placeholder="陽台">
-      陽台
-      <input type="checkbox" name="layout_option" value="開放式">開放式
-      <input type="checkbox" name="layout_option" value="樓中樓">樓中樓
+      <div class="inline-scroll">
+        <input type="text" name="layout_room" class="small-input" maxlength="2" placeholder="房">房
+        <input type="text" name="layout_living" class="small-input" maxlength="2" placeholder="廳">廳
+        <input type="text" name="layout_bath" class="small-input" maxlength="2" placeholder="衛浴">衛浴
+        <input type="text" name="layout_kitchen" class="small-input" maxlength="2" placeholder="廚房">廚房
+        <input type="text" name="layout_balcony" class="small-input" maxlength="2" placeholder="陽台">陽台
+        <input type="checkbox" name="layout_option" value="開放式">開放式
+        <input type="checkbox" name="layout_option" value="樓中樓">樓中樓
+      </div>
     </label>
     <!-- 租金 -->
     <label>租金：<input name="rent" class="auto-grow" required></label>
@@ -196,36 +204,44 @@
         <span class="tip-content">(可否讓租客申請報稅/公證)</span>
       </span>
       ：
-      <input type="radio" name="tax" value="可" id="tax_yes_radio">可
-      <input type="text" id="tax_yes_text" name="tax_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
-      <input type="radio" name="tax" value="不可">不可
-      <input type="checkbox" name="tax_other" value="其他" id="tax_other_checkbox">其他
-      <input type="text" id="tax_other_text" name="tax_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+      <div class="inline-scroll">
+        <input type="radio" name="tax" value="可" id="tax_yes_radio">可
+        <input type="text" id="tax_yes_text" name="tax_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+        <input type="radio" name="tax" value="不可">不可
+        <input type="checkbox" name="tax_other" value="其他" id="tax_other_checkbox">其他
+        <input type="text" id="tax_other_text" name="tax_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+      </div>
     </label>
     <!-- 租補 -->
     <label>租補：
-      <input type="radio" name="subsidy" value="可" id="subsidy_yes_radio">可
-      <input type="text" id="subsidy_yes_text" name="subsidy_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
-      <input type="radio" name="subsidy" value="不可">不可
-      <input type="checkbox" name="subsidy_other" value="其他" id="subsidy_other_checkbox">其他
-      <input type="text" id="subsidy_other_text" name="subsidy_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+      <div class="inline-scroll">
+        <input type="radio" name="subsidy" value="可" id="subsidy_yes_radio">可
+        <input type="text" id="subsidy_yes_text" name="subsidy_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+        <input type="radio" name="subsidy" value="不可">不可
+        <input type="checkbox" name="subsidy_other" value="其他" id="subsidy_other_checkbox">其他
+        <input type="text" id="subsidy_other_text" name="subsidy_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+      </div>
     </label>
     <!-- 入籍 -->
     <label>入籍：
-      <input type="radio" name="register" value="可" id="register_yes_radio">可
-      <input type="text" id="register_yes_text" name="register_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
-      <input type="radio" name="register" value="不可">不可
-      <input type="checkbox" name="register_other" value="其他" id="register_other_checkbox">其他
-      <input type="text" id="register_other_text" name="register_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+      <div class="inline-scroll">
+        <input type="radio" name="register" value="可" id="register_yes_radio">可
+        <input type="text" id="register_yes_text" name="register_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+        <input type="radio" name="register" value="不可">不可
+        <input type="checkbox" name="register_other" value="其他" id="register_other_checkbox">其他
+        <input type="text" id="register_other_text" name="register_other_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+      </div>
     </label>
     <!-- 寵物 -->
     <label>寵物：
-      <input type="checkbox" name="pet" value="可寵">可寵
-      <input type="checkbox" name="pet" value="可寵(可談)">可寵(可談)
-      <input type="checkbox" name="pet" value="可貓">可貓
-      <input type="checkbox" name="pet" value="可狗">可狗
-      <input type="checkbox" name="pet" value="其他" id="pet_other_checkbox">其他
-      <input type="text" id="pet_other_text" name="pet_other" placeholder="請輸入其他內容" style="display:none;" size="8">
+      <div class="inline-scroll">
+        <input type="checkbox" name="pet" value="可寵">可寵
+        <input type="checkbox" name="pet" value="可寵(可談)">可寵(可談)
+        <input type="checkbox" name="pet" value="可貓">可貓
+        <input type="checkbox" name="pet" value="可狗">可狗
+        <input type="checkbox" name="pet" value="其他" id="pet_other_checkbox">其他
+        <input type="text" id="pet_other_text" name="pet_other" placeholder="請輸入其他內容" style="display:none;" size="8">
+      </div>
     </label>
     <!-- 垃圾代收加說明 -->
     <label>
@@ -244,12 +260,14 @@
         <span class="tip-content">有沒有停車位（在哪、停車位形式、計費方式皆需問清楚）讓行銷人員好介紹機械 平面 高度寬度</span>
       </span>
       ：
-      <input type="radio" name="parking" value="有" id="parking_yes_radio">有
-      <input type="text" id="parking_yes_text" name="parking_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
-      <input type="radio" name="parking" value="無">無
-      <input type="checkbox" name="parking_other" value="機械">機械
-      <input type="checkbox" name="parking_other" value="平面">平面
-      <input type="checkbox" name="parking_other" value="其他">其他
+      <div class="inline-scroll">
+        <input type="radio" name="parking" value="有" id="parking_yes_radio">有
+        <input type="text" id="parking_yes_text" name="parking_yes_text" class="auto-grow" placeholder="備註" style="display:none;" size="8">
+        <input type="radio" name="parking" value="無">無
+        <input type="checkbox" name="parking_other" value="機械">機械
+        <input type="checkbox" name="parking_other" value="平面">平面
+        <input type="checkbox" name="parking_other" value="其他">其他
+      </div>
     </label>
     <!-- 公設 -->
     <label>
