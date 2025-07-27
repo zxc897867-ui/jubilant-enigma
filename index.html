@@ -3,28 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <title>房屋資訊自動生成器</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   <style>
     body { font-family: "微軟正黑體", Arial, sans-serif; margin: 30px; }
     label { display: block; margin: 8px 0 2px; }
     input[type="text"], select, textarea { box-sizing: border-box; font-size: 16px; }
-    /* 防止手機輸入框放大 */
-    input[type="text"], input[type="number"], select, textarea {
+    /* 防止手機輸入框放大 - 強化版 */
+    input, textarea, select {
       font-size: 16px !important;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      appearance: none;
-      -webkit-text-size-adjust: 100%;
-      transform-origin: left top;
-      -webkit-transform-origin: left top;
+      -webkit-appearance: none !important;
+      -moz-appearance: none !important;
+      appearance: none !important;
+      -webkit-text-size-adjust: 100% !important;
+      -moz-text-size-adjust: 100% !important;
+      -ms-text-size-adjust: 100% !important;
+      text-size-adjust: 100% !important;
+      transform-origin: left top !important;
+      -webkit-transform-origin: left top !important;
+      -webkit-user-select: text !important;
+      user-select: text !important;
+      outline: none !important;
+      resize: none !important;
     }
+    
+    /* 針對iOS Safari的特殊處理 */
+    input:focus, textarea:focus, select:focus {
+      -webkit-transform: scale(1) !important;
+      transform: scale(1) !important;
+      zoom: 1 !important;
+      font-size: 16px !important;
+    }
+    
     @media screen and (max-width: 768px) {
-      input[type="text"], input[type="number"], select, textarea {
+      input, textarea, select {
         font-size: 16px !important;
-        -webkit-transform: scale(1);
-        transform: scale(1);
-        zoom: 1;
+        -webkit-transform: scale(1) !important;
+        transform: scale(1) !important;
+        zoom: 1 !important;
+        max-width: none !important;
+      }
+      
+      input:focus, textarea:focus, select:focus {
+        -webkit-transform: scale(1) !important;
+        transform: scale(1) !important;
+        zoom: 1 !important;
+        font-size: 16px !important;
       }
     }
     input[type="radio"], input[type="checkbox"] { margin-right: 4px; margin-left: 0; vertical-align: middle; }
