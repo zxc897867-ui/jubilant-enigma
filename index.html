@@ -38,8 +38,17 @@
     input[type="radio"]:checked, input[type="checkbox"]:checked { accent-color: orange; }
     textarea { margin-top: 10px; width: 100%; font-size: 18px; }
     button { margin: 10px 5px 0 0; padding: 8px 16px; }
-    .row { display: flex; gap: 10px; }
-    .row label, .row input { flex: 1; }
+    .row { display: flex; gap: 0; align-items: center; }
+    .row label, .row input { flex: unset; }
+    #date, #today_obj {
+      width: 140px;
+      max-width: 40vw;
+      height: 36px;
+      border-radius: 4px;
+      font-size: 16px;
+      padding: 4px 8px;
+      margin-right: 10px;
+    }
     .tooltip {
       position: relative;
       display: inline-block;
@@ -76,10 +85,10 @@
   <form id="houseForm" autocomplete="off">
     <!-- 日期 + 今日物件 -->
     <div class="row">
-      <label>日期（自動產生）</label>
-      <input name="date" id="date" readonly style="width:120px;">
-      <span>今日物件</span>
-      <input name="today_obj" id="today_obj" class="auto-grow" placeholder="可填寫" style="width:120px;">
+      <label style="min-width:50px;margin-right:4px;">日期</label>
+      <input name="date" id="date" readonly>
+      <span style="margin-right:4px;">今日物件</span>
+      <input name="today_obj" id="today_obj" class="auto-grow" placeholder="可填寫">
     </div>
     <!-- 可否廣告 -->
     <label>可否廣告：
