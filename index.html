@@ -385,11 +385,11 @@
       const bath = document.querySelector('input[name="layout_bath"]').value;
       const kitchen = document.querySelector('input[name="layout_kitchen"]').value;
       const balcony = document.querySelector('input[name="layout_balcony"]').value;
-      if (room) items.push(`房${room}`);
-      if (living) items.push(`廳${living}`);
-      if (bath) items.push(`衛浴${bath}`);
-      if (kitchen) items.push(`廚房${kitchen}`);
-      if (balcony) items.push(`陽台${balcony}`);
+      if (room) items.push(`${room}房`);
+      if (living) items.push(`${living}廳`);
+      if (bath) items.push(`${bath}衛浴`);
+      if (kitchen) items.push(`${kitchen}廚房`);
+      if (balcony) items.push(`${balcony}陽台`);
       let options = [];
       document.querySelectorAll('input[name="layout_option"]:checked').forEach(function(cb) {
         options.push(cb.value);
