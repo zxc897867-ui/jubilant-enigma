@@ -310,7 +310,6 @@
     }
   </script>
   <script>
-    // 你的原本JS全部照貼
     // OCR比對功能
     function toChineseNumber(n) {
       const map = ['零','一','二','三','四','五','六','七','八','九'];
@@ -460,7 +459,7 @@
     function generate() {
       const data = new FormData(document.getElementById('houseForm'));
       let output =
-        `日期：${data.get('date')} 今日物件：${data.get('today_obj') || ''}\n業務代租進件格式如下\n` +
+        `${data.get('date')} 今日物件${data.get('today_obj') ? ' ' + data.get('today_obj') : ''}\n業務代租進件格式如下\n` +
         `可否廣告：${data.get('ad') || ''}\n` +
         `可否簽委托書：${data.get('sign') || ''}\n` +
         `地址：${data.get('address') || ''}\n` +
@@ -502,8 +501,8 @@
     function getTaiwanDate() {
       const today = new Date();
       const year = today.getFullYear() - 1911;
-      const month = String(today.getMonth() + 1).padStart(2, '0');
-      const day = String(today.getDate()).padStart(2, '0');
+      const month = today.getMonth() + 1;
+      const day = today.getDate();
       return `${year}/${month}/${day}`;
     }
     document.getElementById('date').value = getTaiwanDate();
