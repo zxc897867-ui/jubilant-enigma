@@ -402,33 +402,33 @@
     function generate() {
       const data = new FormData(document.getElementById('houseForm'));
       let output =
-        `日期：${data.get('date')} 今日物件：${data.get('today_obj') || ''}\n\n業務代租進件格式如下\n\n` +
-        `可否廣告：${data.get('ad') || ''}\n\n` +
-        `可否簽委托書：${data.get('sign') || ''}\n\n` +
-        `地址：${data.get('address') || ''}\n\n` +
-        `頂加是否為民國84年前增建：${data.get('top') || ''}\n\n` +
-        `房號：${data.get('room') || ''}${data.get('room_none') ? '（無）' : ''}\n\n` +
-        `總樓層：${data.get('floor') || ''}\n\n` +
-        `建物型態：${data.get('type') || ''}\n\n` +
-        `坪數：${data.get('area') || ''}\n\n` +
-        `格局：${getLayoutValue()}\n\n` +
-        `租金：${data.get('rent') || ''}\n\n` +
-        `管理費：${data.get('fee') || ''}${data.get('fee_none') ? '（無）' : ''}\n\n` +
-        `底價：${data.get('base') || ''}\n\n` +
-        `報稅：${data.get('tax') || ''}\n\n` +
-        `租補：${data.get('subsidy') || ''}\n\n` +
-        `入籍：${data.get('register') || ''}\n\n` +
-        `寵物：${data.get('pet') || ''}\n\n` +
-        `垃圾代收：${data.get('garbage') || ''}\n\n` +
-        `停車位：${data.get('parking') || ''}\n\n` +
-        `公設：${data.get('public') || ''}\n\n` +
-        `電費$/度：${data.get('electric') || ''}\n\n` +
-        `水費：${data.get('water') || ''}\n\n` +
-        `瓦斯：${data.get('gas') || ''}\n\n` +
-        `鄰近交通(站點/分鐘)：${data.get('traffic') || ''}\n\n` +
-        `帶看方式：${data.get('show') || ''}\n\n` +
-        `附加設備：${data.get('equip') || ''}\n\n` +
-        `注意事項(生活機能、東服等補充)：${data.get('note') || ''}\n\n` +
+        `日期：${data.get('date')} 今日物件：${data.get('today_obj') || ''}\n業務代租進件格式如下\n` +
+        `可否廣告：${data.get('ad') || ''}\n` +
+        `可否簽委托書：${data.get('sign') || ''}\n` +
+        `地址：${data.get('address') || ''}\n` +
+        `頂加是否為民國84年前增建：${data.get('top') || ''}\n` +
+        `房號：${data.get('room') || ''}${data.get('room_none') ? '（無）' : ''}\n` +
+        `總樓層：${data.get('floor') || ''}\n` +
+        `建物型態：${data.get('type') || ''}\n` +
+        `坪數：${data.get('area') || ''}\n` +
+        `格局：${getLayoutValue()}\n` +
+        `租金：${data.get('rent') || ''}\n` +
+        `管理費：${data.get('fee') || ''}${data.get('fee_none') ? '（無）' : ''}\n` +
+        `底價：${data.get('base') || ''}\n` +
+        `報稅：${data.get('tax') || ''}\n` +
+        `租補：${data.get('subsidy') || ''}\n` +
+        `入籍：${data.get('register') || ''}\n` +
+        `寵物：${data.get('pet') || ''}\n` +
+        `垃圾代收：${data.get('garbage') || ''}\n` +
+        `停車位：${data.get('parking') || ''}\n` +
+        `公設：${data.get('public') || ''}\n` +
+        `電費$/度：${data.get('electric') || ''}\n` +
+        `水費：${data.get('water') || ''}\n` +
+        `瓦斯：${data.get('gas') || ''}\n` +
+        `鄰近交通(站點/分鐘)：${data.get('traffic') || ''}\n` +
+        `帶看方式：${data.get('show') || ''}\n` +
+        `附加設備：${data.get('equip') || ''}\n` +
+        `注意事項(生活機能、東服等補充)：${data.get('note') || ''}\n` +
         `開發：${data.get('dev') || ''}`;
       document.getElementById('output').value = output;
       autoGrow(document.getElementById('output'));
