@@ -247,30 +247,41 @@
           <label><input type="radio" name="register" value="其他">其他</label>
         </div>
       </div>
-    <div class="row">
-  <label>寵物：</label>
-  <div class="inline-options">
-    <label><input type="radio" name="pet" value="不可">不可</label>
-    <label><input type="radio" name="pet" value="可寵">可寵</label>
-    <label><input type="radio" name="pet" value="可寵(可談)">可寵(可談)</label>
-    <label><input type="radio" name="pet" value="可貓">可貓</label>
-    <label><input type="radio" name="pet" value="可狗">可狗</label>
-  </div>
-</div>
+      <!-- 寵物欄位 -->
+      <div class="row">
+        <label>寵物：</label>
+        <div class="inline-options">
+          <label><input type="radio" name="pet" value="不可">不可</label>
+          <label><input type="radio" name="pet" value="可寵">可寵</label>
+          <label><input type="radio" name="pet" value="可寵(可談)">可寵(可談)</label>
+          <label><input type="radio" name="pet" value="可貓">可貓</label>
+          <label><input type="radio" name="pet" value="可狗">可狗</label>
+        </div>
+      </div>
+      <!-- 垃圾代收欄位 -->
       <div class="row">
         <label>垃圾代收：</label>
         <div class="inline-options">
-          <label><input type="radio" name="garbage" value="有">有</label>
-          <label><input type="radio" name="garbage" value="無">無</label>
-          <label><input type="radio" name="garbage" value="其他">其他</label>
+          <label>
+            <input type="radio" name="garbage" value="有" onclick="toggleGarbageNote(this)">
+            有
+            <input type="text" id="garbage_note" name="garbage_note" class="auto-grow" style="display:none;vertical-align:middle;" placeholder="備註">
+          </label>
+          <label><input type="radio" name="garbage" value="無" onclick="toggleGarbageNote(this)">無</label>
+          <label><input type="radio" name="garbage" value="其他" onclick="toggleGarbageNote(this)">其他</label>
         </div>
       </div>
+      <!-- 停車位欄位 -->
       <div class="row">
         <label>停車位：</label>
         <div class="inline-options">
-          <label><input type="radio" name="parking" value="有">有</label>
-          <label><input type="radio" name="parking" value="無">無</label>
-          <label><input type="radio" name="parking" value="其他">其他</label>
+          <label>
+            <input type="radio" name="parking" value="有" onclick="toggleParkingNote(this)">
+            有
+            <input type="text" id="parking_note" name="parking_note" class="auto-grow" style="display:none;vertical-align:middle;" placeholder="備註">
+          </label>
+          <label><input type="radio" name="parking" value="無" onclick="toggleParkingNote(this)">無</label>
+          <label><input type="radio" name="parking" value="其他" onclick="toggleParkingNote(this)">其他</label>
         </div>
       </div>
       <label>公設：<input name="public" class="auto-grow" placeholder="請填寫公設內容"></label>
@@ -476,8 +487,8 @@
         `租補：${data.get('subsidy') || ''}\n` +
         `入籍：${data.get('register') || ''}\n` +
         `寵物：${data.get('pet') || ''}\n` +
-        `垃圾代收：${data.get('garbage') || ''}\n` +
-        `停車位：${data.get('parking') || ''}\n` +
+        `垃圾代收：${data.get('garbage') || ''}${data.get('garbage') === '有' && data.get('garbage_note') ? '（' + data.get('garbage_note') + '）' : ''}\n` +
+        `停車位：${data.get('parking') || ''}${data.get('parking') === '有' && data.get('parking_note') ? '（' + data.get('parking_note') + '）' : ''}\n` +
         `公設：${data.get('public') || ''}\n` +
         `電費$/度：${data.get('electric') || ''}\n` +
         `水費：${data.get('water') || ''}\n` +
@@ -532,6 +543,28 @@
         adjustInputWidth(this);
       });
     });
+
+    // 新增：停車位與垃圾代收備註欄顯示控制
+    function toggleParkingNote(radio) {
+      var note = document.getElementById('parking_note');
+      if (radio.value === '有' && radio.checked) {
+        note.style.display = '';
+        note.focus();
+      } else {
+        note.style.display = 'none';
+        note.value = '';
+      }
+    }
+    function toggleGarbageNote(radio) {
+      var note = document.getElementById('garbage_note');
+      if (radio.value === '有' && radio.checked) {
+        note.style.display = '';
+        note.focus();
+      } else {
+        note.style.display = 'none';
+        note.value = '';
+      }
+    }
   </script>
 </body>
 </html>
